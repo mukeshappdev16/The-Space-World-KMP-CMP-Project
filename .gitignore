@@ -1,0 +1,54 @@
+# Gradle
+.gradle/
+build/
+**/build/
+!src/**/build/
+
+# IntelliJ IDEA / Android Studio
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Android
+local.properties
+captures/
+.externalNativeBuild/
+.cxx/
+*.apk
+*.aar
+output.json
+
+# iOS / Xcode
+iosApp/build/
+iosApp/*.xcodeproj/xcuserdata/
+iosApp/*.xcodeproj/project.xcworkspace/xcuserdata/
+iosApp/*.xcworkspace/xcuserdata/
+iosApp/DerivedData/
+*.moved-aside
+*.xcuserstate
+xcuserdata/
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+!*.xcodeproj/project.xcworkspace/
+!*.xcworkspace/contents.xcworkspacedata
+**/xcshareddata/WorkspaceSettings.xcsettings
+
+# Kotlin Multiplatform
+.kotlin/
+compose-app-preset-config.json
+.skiko/
+
+# Web
+node_modules/
+
+# OS specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Secrets/Local
+*.keystore
+!debug.keystore
+google-services.json
