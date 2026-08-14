@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 fun App() {
     MaterialTheme {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Hello, Space World!.. this is from ${getPlatform().name}")
+            Text("Hello, Space World!. this is from ${getPlatform().name}")
 
         }
     }
