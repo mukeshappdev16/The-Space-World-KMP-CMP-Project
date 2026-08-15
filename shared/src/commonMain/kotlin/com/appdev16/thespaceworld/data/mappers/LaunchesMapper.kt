@@ -89,7 +89,7 @@ fun LaunchServiceProviderDto.toDomain() = LaunchServiceProvider(
 )
 
 fun MissionDto.toDomain() = Mission(
-    agencies = agencies,
+    agencies = agencies.map { it.toDomain() },
     description = description,
     id = id,
     image = image,
@@ -136,7 +136,7 @@ fun CelestialBodyDtoX.toDomain() = CelestialBody(
 
 fun PadDto.toDomain() = Pad(
     active = active,
-    agencies = agencies,
+    agencies = agencies.map { it.toDomain() },
     country = country.toDomain(),
     description = description,
     fastestTurnaround = fastestTurnaround,

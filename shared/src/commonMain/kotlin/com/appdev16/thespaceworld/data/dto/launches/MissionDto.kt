@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class MissionDto(
-    @SerialName("agencies") val agencies: List<String?> = listOf(),
+    @SerialName("agencies") val agencies: List<LaunchServiceProviderDto> = listOf(),
     @SerialName("description") val description: String = "",
     @SerialName("id") val id: Int = 0,
     @SerialName("image") val image: String? = null,

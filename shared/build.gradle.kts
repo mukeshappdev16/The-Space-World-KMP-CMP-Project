@@ -58,13 +58,16 @@ kotlin {
         commonMain.dependencies {
             implementation(libs.compose.runtime)
             implementation(libs.compose.foundation)
+            implementation(libs.compose.material)
             implementation(libs.compose.material3)
             implementation(libs.compose.ui)
+            implementation(compose.materialIconsExtended)
             implementation(libs.compose.components.resources)
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodelCompose)
             implementation(libs.androidx.lifecycle.runtimeCompose)
             implementation(libs.androidx.annotation)
+            implementation(libs.navigation.compose)
 
             // Networking
             implementation(libs.ktor.client.core)
@@ -81,6 +84,10 @@ kotlin {
             // Database
             implementation(libs.androidx.room.runtime)
             implementation(libs.androidx.sqlite.bundled)
+
+            // Coil
+            implementation(libs.coil.compose)
+            implementation(libs.coil.network.ktor)
         }
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)

@@ -1,7 +1,7 @@
 package com.appdev16.thespaceworld.domain.modal.launches
 
 data class Mission(
-    val agencies: List<String?>,
+    val agencies: List<LaunchServiceProvider>,
     val description: String,
     val id: Int,
     val image: String?,
@@ -22,7 +22,7 @@ data class Orbit(
 data class CelestialBody(
     val atmosphere: Boolean? = null,
     val description: String? = null,
-    val diameter: Int? = null,
+    val diameter: Double? = null,
     val failedLandings: Int? = null,
     val failedLaunches: Int? = null,
     val gravity: Double? = null,

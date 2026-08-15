@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class PadDto(
     @SerialName("active") val active: Boolean = false,
-    @SerialName("agencies") val agencies: List<String?> = listOf(),
+    @SerialName("agencies") val agencies: List<LaunchServiceProviderDto> = listOf(),
     @SerialName("country") val country: CountryDto = CountryDto(),
     @SerialName("description") val description: String? = null,
     @SerialName("fastest_turnaround") val fastestTurnaround: String = "",

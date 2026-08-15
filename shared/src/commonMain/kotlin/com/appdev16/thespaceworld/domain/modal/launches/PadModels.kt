@@ -2,7 +2,7 @@ package com.appdev16.thespaceworld.domain.modal.launches
 
 data class Pad(
     val active: Boolean,
-    val agencies: List<String?>,
+    val agencies: List<LaunchServiceProvider>,
     val country: Country,
     val description: String?,
     val fastestTurnaround: String,

@@ -8,7 +8,7 @@ import kotlinx.serialization.Serializable
 data class CelestialBodyDtoX(
     @SerialName("atmosphere") val atmosphere: Boolean = false,
     @SerialName("description") val description: String = "",
-    @SerialName("diameter") val diameter: Int = 0,
+    @SerialName("diameter") val diameter: Double = 0.0,
     @SerialName("failed_landings") val failedLandings: Int = 0,
     @SerialName("failed_launches") val failedLaunches: Int = 0,
     @SerialName("gravity") val gravity: Double = 0.0,
