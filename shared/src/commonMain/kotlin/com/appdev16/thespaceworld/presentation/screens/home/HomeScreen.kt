@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import thespaceworld.shared.generated.resources.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -23,12 +25,12 @@ fun HomeScreen(
             CenterAlignedTopAppBar(
                 title = { 
                     Text(
-                        "THE SPACE WORLD",
+                        stringResource(Res.string.home_title),
                         style = MaterialTheme.typography.titleLarge,
                         fontWeight = FontWeight.Bold
                     ) 
                 },
-                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.background,
                     titleContentColor = MaterialTheme.colorScheme.primary
                 )
@@ -45,28 +47,28 @@ fun HomeScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Discover space activities and missions from around the world.",
+                text = stringResource(Res.string.home_description),
                 style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
                 modifier = Modifier.padding(bottom = 12.dp)
             )
 
             HomeCard(
-                title = "Launches",
-                subtitle = "View upcoming and past space missions",
+                title = stringResource(Res.string.home_launches_title),
+                subtitle = stringResource(Res.string.home_launches_subtitle),
                 onClick = onNavigateToLaunches
             )
             
             HomeCard(
-                title = "Events",
-                subtitle = "Space conferences and celestial events",
+                title = stringResource(Res.string.home_events_title),
+                subtitle = stringResource(Res.string.home_events_subtitle),
                 onClick = onNavigateToEvents,
                 enabled = false
             )
             
             HomeCard(
-                title = "News",
-                subtitle = "Latest updates from space agencies",
+                title = stringResource(Res.string.home_news_title),
+                subtitle = stringResource(Res.string.home_news_subtitle),
                 onClick = onNavigateToNews,
                 enabled = false
             )
@@ -106,7 +108,7 @@ fun HomeCard(
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                text = if (enabled) subtitle else "Coming Soon",
+                text = if (enabled) subtitle else stringResource(Res.string.coming_soon),
                 style = MaterialTheme.typography.bodySmall,
                 color = if (enabled) MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f) else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.2f)
             )

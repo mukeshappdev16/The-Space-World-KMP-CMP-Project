@@ -15,6 +15,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.delay
 
+import org.jetbrains.compose.resources.stringResource
+import thespaceworld.shared.generated.resources.Res
+import thespaceworld.shared.generated.resources.app_name
+import thespaceworld.shared.generated.resources.explore_universe
+
 @Composable
 fun SplashScreen(
     onNavigateToHome: () -> Unit
@@ -41,7 +46,7 @@ fun SplashScreen(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "THE SPACE WORLD",
+                    text = stringResource(Res.string.app_name).uppercase(),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary,
@@ -51,7 +56,7 @@ fun SplashScreen(
                 Spacer(modifier = Modifier.height(8.dp))
                 
                 Text(
-                    text = "Explore the Universe",
+                    text = stringResource(Res.string.explore_universe),
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.secondary,
                     letterSpacing = 2.sp

@@ -11,12 +11,6 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-data class LaunchesUiState(
-    val isLoading: Boolean = false,
-    val launches: List<Launch> = emptyList(),
-    val error: NetworkError? = null
-)
-
 class LaunchesViewModel(
     private val getLaunchesUseCase: GetLaunchesUseCase
 ) : ViewModel() {
@@ -43,3 +37,9 @@ class LaunchesViewModel(
         }
     }
 }
+
+data class LaunchesUiState(
+    val isLoading: Boolean = false,
+    val launches: List<Launch> = emptyList(),
+    val error: NetworkError? = null
+)

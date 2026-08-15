@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">The Space World</string>
+    <string name="explore_universe">Explore the Universe</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">THE SPACE WORLD</string>
+    <string name="home_description">Discover space activities and missions from around the world.</string>
+    <string name="home_launches_title">Launches</string>
+    <string name="home_launches_subtitle">View upcoming and past space missions</string>
+    <string name="home_events_title">Events</string>
+    <string name="home_events_subtitle">Space conferences and celestial events</string>
+    <string name="home_news_title">News</string>
+    <string name="home_news_subtitle">Latest updates from space agencies</string>
+    <string name="coming_soon">Coming Soon</string>
+
+    <!-- Launches Screen -->
+    <string name="launches_title">Space Launches</string>
+    <string name="back">Back</string>
+    <string name="error_title">Oops! Something went wrong</string>
+</resources>

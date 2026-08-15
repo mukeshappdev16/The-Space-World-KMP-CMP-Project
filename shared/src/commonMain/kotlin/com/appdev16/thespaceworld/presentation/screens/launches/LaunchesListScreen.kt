@@ -19,24 +19,40 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.appdev16.thespaceworld.domain.modal.launches.Launch
+import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
+import com.appdev16.thespaceworld.presentation.util.MockData
+import androidx.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.resources.stringResource
+import thespaceworld.shared.generated.resources.*
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun LaunchesListScreen(
     viewModel: LaunchesViewModel,
     onNavigateBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsState()
+    
+    LaunchesListContent(
+        state = state,
+        onNavigateBack = onNavigateBack
+    )
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LaunchesListContent(
+    state: LaunchesUiState,
+    onNavigateBack: () -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Space Launches", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(Res.string.launches_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "Back"
+                            contentDescription = stringResource(Res.string.back)
                         )
                     }
                 },
@@ -65,7 +81,7 @@ fun LaunchesListScreen(
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "Oops! Something went wrong",
+                        text = stringResource(Res.string.error_title),
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.error
                     )
@@ -160,6 +176,30 @@ fun StatusBadge(status: String) {
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.secondary,
             fontWeight = FontWeight.Bold
+        )
+    }
+}
+
+@Preview
+@Composable
+fun LaunchesListPreview() {
+    TheSpaceWorldTheme {
+        LaunchesListContent(
+            state = LaunchesUiState(
+                launches = MockData.launches
+            ),
+            onNavigateBack = {}
+        )
+    }
+}
+
+@Preview
+@Composable
+fun LaunchesListLoadingPreview() {
+    TheSpaceWorldTheme {
+        LaunchesListContent(
+            state = LaunchesUiState(isLoading = true),
+            onNavigateBack = {}
         )
     }
 }
