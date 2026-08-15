@@ -1,4 +1,4 @@
-package com.appdev16.thespaceworld
+package com.appdev16.thespaceworld.presentation
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,7 +14,7 @@ import androidx.compose.ui.tooling.preview.Preview
 fun App() {
     MaterialTheme {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Hello, Space World!. this is from ${getPlatform().name}")
+            Text("Hello, Space World!")
 
         }
     }
