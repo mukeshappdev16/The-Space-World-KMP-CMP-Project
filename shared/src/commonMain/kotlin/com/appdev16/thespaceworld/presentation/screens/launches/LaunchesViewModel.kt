@@ -11,6 +11,21 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
+sealed interface LaunchesAction {
+    data object Refresh : LaunchesAction
+    data object LoadNextPage : LaunchesAction
+    data object Retry : LaunchesAction
+}
+
+data class LaunchesUiState(
+    val isLoading: Boolean = false,
+    val isPaginationLoading: Boolean = false,
+    val launches: List<Launch> = emptyList(),
+    val error: NetworkError? = null,
+    val endReached: Boolean = false,
+    val currentOffset: Int = 0
+)
+
 class LaunchesViewModel(
     private val getLaunchesUseCase: GetLaunchesUseCase
 ) : ViewModel() {
@@ -18,28 +33,63 @@ class LaunchesViewModel(
     private val _state = MutableStateFlow(LaunchesUiState())
     val state = _state.asStateFlow()
 
+    private val pageSize = 20
+
     init {
         loadLaunches()
     }
 
-    private fun loadLaunches() {
+    fun onAction(action: LaunchesAction) {
+        when (action) {
+            LaunchesAction.Refresh -> {
+                _state.update { it.copy(currentOffset = 0, endReached = false, launches = emptyList()) }
+                loadLaunches()
+            }
+            LaunchesAction.LoadNextPage -> {
+                loadLaunches(isNextPage = true)
+            }
+            LaunchesAction.Retry -> {
+                loadLaunches(isNextPage = _state.value.currentOffset > 0)
+            }
+        }
+    }
+
+    private fun loadLaunches(isNextPage: Boolean = false) {
+        if (_state.value.isLoading || _state.value.isPaginationLoading || _state.value.endReached) return
+
         viewModelScope.launch {
-            _state.update { it.copy(isLoading = true, error = null) }
+            if (isNextPage) {
+                _state.update { it.copy(isPaginationLoading = true, error = null) }
+            } else {
+                _state.update { it.copy(isLoading = true, error = null) }
+            }
             
-            when (val result = getLaunchesUseCase.execute()) {
+            val result = getLaunchesUseCase.execute(
+                limit = pageSize,
+                offset = _state.value.currentOffset
+            )
+
+            when (result) {
                 is Result.Error -> {
-                    _state.update { it.copy(isLoading = false, error = result.error) }
+                    _state.update { it.copy(
+                        isLoading = false, 
+                        isPaginationLoading = false,
+                        error = result.error
+                    ) }
                 }
                 is Result.Success -> {
-                    _state.update { it.copy(isLoading = false, launches = result.data) }
+                    val newLaunches = result.data
+                    _state.update { 
+                        it.copy(
+                            isLoading = false,
+                            isPaginationLoading = false,
+                            launches = it.launches + newLaunches,
+                            currentOffset = it.currentOffset + newLaunches.size,
+                            endReached = newLaunches.size < pageSize
+                        )
+                    }
                 }
             }
         }
     }
 }
-
-data class LaunchesUiState(
-    val isLoading: Boolean = false,
-    val launches: List<Launch> = emptyList(),
-    val error: NetworkError? = null
-)

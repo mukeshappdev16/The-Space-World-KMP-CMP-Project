@@ -10,15 +10,18 @@ import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.serialization.SerializationException
 
 interface LaunchesRemoteDataSource {
-    suspend fun getLaunches(): Result<LaunchResponseDto, NetworkError>
+    suspend fun getLaunches(limit: Int, offset: Int): Result<LaunchResponseDto, NetworkError>
 }
 
 class LaunchesRemoteDataSourceImpl(
     private val httpClient: HttpClient
 ) : LaunchesRemoteDataSource {
-    override suspend fun getLaunches(): Result<LaunchResponseDto, NetworkError> {
+    override suspend fun getLaunches(
+        limit: Int,
+        offset: Int
+    ): Result<LaunchResponseDto, NetworkError> {
         val response = try {
-            httpClient.get("launches/?format=json")
+            httpClient.get("launches/?format=json&&ordering=-last_updated&limit=$limit&offset=$offset")
         } catch (e: UnresolvedAddressException) {
             return Result.Error(NetworkError.Network.NO_INTERNET)
         } catch (e: SerializationException) {
@@ -35,6 +38,7 @@ class LaunchesRemoteDataSourceImpl(
                     Result.Error(NetworkError.Network.SERIALIZATION)
                 }
             }
+
             401 -> Result.Error(NetworkError.Network.UNAUTHORIZED)
             409 -> Result.Error(NetworkError.Network.CONFLICT)
             408 -> Result.Error(NetworkError.Network.REQUEST_TIMEOUT)

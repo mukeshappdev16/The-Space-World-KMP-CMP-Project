@@ -8,7 +8,7 @@ import com.appdev16.thespaceworld.util.Result
 class GetLaunchesUseCase(
     private val repository: LaunchesRepository
 ) {
-    suspend fun execute(): Result<List<Launch>, NetworkError> {
-        return repository.getSpaceLaunches()
+    suspend fun execute(limit: Int = 20, offset: Int = 0): Result<List<Launch>, NetworkError> {
+        return repository.getSpaceLaunches(limit, offset)
     }
 }

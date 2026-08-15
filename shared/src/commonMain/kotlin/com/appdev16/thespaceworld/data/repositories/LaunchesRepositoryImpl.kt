@@ -1,5 +1,6 @@
 package com.appdev16.thespaceworld.data.repositories
 
+import com.appdev16.thespaceworld.data.dto.launches.LaunchResponseDto
 import com.appdev16.thespaceworld.data.mappers.toDomain
 import com.appdev16.thespaceworld.data.remote.LaunchesRemoteDataSource
 import com.appdev16.thespaceworld.domain.modal.launches.Launch
@@ -11,8 +12,8 @@ import com.appdev16.thespaceworld.util.map
 class LaunchesRepositoryImpl(
     private val remoteDataSource: LaunchesRemoteDataSource
 ) : LaunchesRepository {
-    override suspend fun getSpaceLaunches(): Result<List<Launch>, NetworkError> {
-        return remoteDataSource.getLaunches().map { responseDto ->
+    override suspend fun getSpaceLaunches(limit: Int, offset: Int): Result<List<Launch>, NetworkError> {
+        return remoteDataSource.getLaunches(limit, offset).map { responseDto ->
             responseDto.results.map { it.toDomain() }
         }
     }

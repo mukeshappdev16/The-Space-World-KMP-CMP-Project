@@ -2,14 +2,13 @@ package com.appdev16.thespaceworld.presentation.screens.launches
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -34,7 +33,8 @@ fun LaunchesListScreen(
     
     LaunchesListContent(
         state = state,
-        onNavigateBack = onNavigateBack
+        onNavigateBack = onNavigateBack,
+        onLoadNextPage = { viewModel.onAction(LaunchesAction.LoadNextPage) }
     )
 }
 
@@ -42,8 +42,32 @@ fun LaunchesListScreen(
 @Composable
 fun LaunchesListContent(
     state: LaunchesUiState,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onLoadNextPage: () -> Unit
 ) {
+    val scrollState = rememberLazyListState()
+
+    // Detection for infinite scroll
+    val shouldLoadNextPage = remember(scrollState, state.launches.size, state.isLoading, state.isPaginationLoading, state.endReached) {
+        derivedStateOf {
+            val layoutInfo = scrollState.layoutInfo
+            val totalItemsNumber = layoutInfo.totalItemsCount
+            val lastVisibleItemIndex = (layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: 0) + 1
+            
+            lastVisibleItemIndex >= totalItemsNumber - 5 && 
+                    !state.isLoading && 
+                    !state.isPaginationLoading && 
+                    !state.endReached &&
+                    state.launches.isNotEmpty()
+        }
+    }
+
+    LaunchedEffect(shouldLoadNextPage.value) {
+        if (shouldLoadNextPage.value) {
+            onLoadNextPage()
+        }
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -70,12 +94,12 @@ fun LaunchesListContent(
                 .fillMaxSize()
                 .padding(padding)
         ) {
-            if (state.isLoading) {
+            if (state.isLoading && state.launches.isEmpty()) {
                 CircularProgressIndicator(
                     modifier = Modifier.align(Alignment.Center),
                     color = MaterialTheme.colorScheme.primary
                 )
-            } else if (state.error != null) {
+            } else if (state.error != null && state.launches.isEmpty()) {
                 Column(
                     modifier = Modifier.align(Alignment.Center).padding(24.dp),
                     horizontalAlignment = Alignment.CenterHorizontally
@@ -94,12 +118,30 @@ fun LaunchesListContent(
                 }
             } else {
                 LazyColumn(
+                    state = scrollState,
                     modifier = Modifier.fillMaxSize(),
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
-                    items(state.launches) { launch ->
+                    itemsIndexed(state.launches) { index, launch ->
                         LaunchItem(launch)
+                    }
+
+                    if (state.isPaginationLoading) {
+                        item {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(16.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                CircularProgressIndicator(
+                                    modifier = Modifier.size(32.dp),
+                                    strokeWidth = 2.dp,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
                     }
                 }
             }
@@ -119,7 +161,7 @@ fun LaunchItem(launch: Launch) {
     ) {
         Column {
             AsyncImage(
-                model = launch.image.imageUrl,
+                model = launch.image?.imageUrl ?: "",
                 contentDescription = launch.name,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -140,7 +182,7 @@ fun LaunchItem(launch: Launch) {
                 Spacer(modifier = Modifier.height(4.dp))
                 
                 Text(
-                    text = launch.launchServiceProvider.name,
+                    text = launch.launchServiceProvider?.name ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -152,7 +194,7 @@ fun LaunchItem(launch: Launch) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    StatusBadge(status = launch.status.name)
+                    StatusBadge(status = launch.status?.name ?: "")
                     Text(
                         text = launch.net.split("T").firstOrNull() ?: "",
                         style = MaterialTheme.typography.bodySmall,
@@ -188,7 +230,8 @@ fun LaunchesListPreview() {
             state = LaunchesUiState(
                 launches = MockData.launches
             ),
-            onNavigateBack = {}
+            onNavigateBack = {},
+            onLoadNextPage = {}
         )
     }
 }
@@ -199,7 +242,8 @@ fun LaunchesListLoadingPreview() {
     TheSpaceWorldTheme {
         LaunchesListContent(
             state = LaunchesUiState(isLoading = true),
-            onNavigateBack = {}
+            onNavigateBack = {},
+            onLoadNextPage = {}
         )
     }
 }

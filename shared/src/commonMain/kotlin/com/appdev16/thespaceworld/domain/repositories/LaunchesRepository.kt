@@ -5,5 +5,5 @@ import com.appdev16.thespaceworld.util.NetworkError
 import com.appdev16.thespaceworld.util.Result
 
 interface LaunchesRepository {
-    suspend fun getSpaceLaunches(): Result<List<Launch>, NetworkError>
+    suspend fun getSpaceLaunches(limit: Int, offset: Int): Result<List<Launch>, NetworkError>
 }
