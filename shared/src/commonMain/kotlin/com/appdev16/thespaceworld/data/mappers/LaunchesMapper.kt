@@ -1,5 +1,6 @@
 package com.appdev16.thespaceworld.data.mappers
 
+import com.appdev16.thespaceworld.data.database.entities.LaunchEntity
 import com.appdev16.thespaceworld.data.dto.launches.*
 import com.appdev16.thespaceworld.domain.modal.launches.*
 
@@ -9,7 +10,7 @@ fun LaunchDto.toDomain(): Launch = Launch(
     failReason = failReason,
     id = id,
     image = image?.toDomain() ?: Image("", "", ""),
-    lastUpdated = lastUpdated,
+    lastUpdated = lastUpdated ?: "",
     launchDesignator = launchDesignator ?: "",
     launchServiceProvider = launchServiceProvider?.toDomain() ?: LaunchServiceProvider(""),
     locationLaunchAttemptCount = locationLaunchAttemptCount,
@@ -17,7 +18,7 @@ fun LaunchDto.toDomain(): Launch = Launch(
     mission = mission?.toDomain() ?: Mission("", 0, "", ""),
     name = name,
     net = net,
-    orbitalLaunchAttemptCount = orbitalLaunchAttemptCount?.toInt() ?: 0,
+    orbitalLaunchAttemptCount = orbitalLaunchAttemptCount?.toIntOrNull() ?: 0,
     orbitalLaunchAttemptCountYear = orbitalLaunchAttemptCountYear,
     padLaunchAttemptCount = padLaunchAttemptCount,
     padLaunchAttemptCountYear = padLaunchAttemptCountYear,
@@ -26,6 +27,49 @@ fun LaunchDto.toDomain(): Launch = Launch(
     slug = slug,
     status = status?.toDomain() ?: Status("", "", 0, ""),
     url = url,
+    webcastLive = webcastLive,
+    windowEnd = windowEnd,
+    windowStart = windowStart
+)
+
+fun LaunchDto.toEntity(): LaunchEntity = LaunchEntity(
+    id = id,
+    name = name,
+    net = net,
+    lastUpdated = lastUpdated ?: "",
+    imageUrl = image?.imageUrl,
+    providerName = launchServiceProvider?.name,
+    statusName = status?.name,
+    missionName = mission?.name,
+    missionDescription = mission?.description,
+    webcastLive = webcastLive,
+    windowEnd = windowEnd,
+    windowStart = windowStart
+)
+
+fun LaunchEntity.toDomain(): Launch = Launch(
+    agencyLaunchAttemptCount = 0,
+    agencyLaunchAttemptCountYear = 0,
+    failReason = null,
+    id = id,
+    image = Image(imageUrl ?: "", "", ""),
+    lastUpdated = lastUpdated,
+    launchDesignator = "",
+    launchServiceProvider = LaunchServiceProvider(providerName ?: ""),
+    locationLaunchAttemptCount = 0,
+    locationLaunchAttemptCountYear = 0,
+    mission = Mission(missionDescription ?: "", 0, missionName ?: "", ""),
+    name = name,
+    net = net,
+    orbitalLaunchAttemptCount = 0,
+    orbitalLaunchAttemptCountYear = 0,
+    padLaunchAttemptCount = 0,
+    padLaunchAttemptCountYear = 0,
+    responseMode = "",
+    rocket = Rocket(Configuration(null, 0, null, null, null), 0),
+    slug = "",
+    status = Status(statusName ?: "", "", 0, statusName ?: ""),
+    url = "",
     webcastLive = webcastLive,
     windowEnd = windowEnd,
     windowStart = windowStart

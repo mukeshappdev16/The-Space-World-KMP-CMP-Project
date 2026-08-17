@@ -155,13 +155,13 @@ fun LaunchItem(launch: Launch) {
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.background
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column {
             AsyncImage(
-                model = launch.image?.imageUrl ?: "",
+                model = launch.image.imageUrl,
                 contentDescription = launch.name,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -182,7 +182,7 @@ fun LaunchItem(launch: Launch) {
                 Spacer(modifier = Modifier.height(4.dp))
                 
                 Text(
-                    text = launch.launchServiceProvider?.name ?: "",
+                    text = launch.launchServiceProvider.name,
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -194,7 +194,7 @@ fun LaunchItem(launch: Launch) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    StatusBadge(status = launch.status?.name ?: "")
+                    StatusBadge(status = launch.status.name)
                     Text(
                         text = launch.net.split("T").firstOrNull() ?: "",
                         style = MaterialTheme.typography.bodySmall,

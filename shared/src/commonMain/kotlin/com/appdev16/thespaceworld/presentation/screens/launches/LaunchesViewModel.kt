@@ -6,9 +6,7 @@ import com.appdev16.thespaceworld.domain.modal.launches.Launch
 import com.appdev16.thespaceworld.domain.usecase.GetLaunchesUseCase
 import com.appdev16.thespaceworld.util.NetworkError
 import com.appdev16.thespaceworld.util.Result
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
 sealed interface LaunchesAction {
@@ -36,25 +34,40 @@ class LaunchesViewModel(
     private val pageSize = 20
 
     init {
-        loadLaunches()
+        observeLaunches()
+    }
+
+    private fun observeLaunches() {
+        getLaunchesUseCase.getLaunches()
+            .onEach { launches ->
+                _state.update { it.copy(
+                    launches = launches,
+                    currentOffset = launches.size
+                ) }
+                
+                // Trigger initial sync if DB is empty
+                if (launches.isEmpty() && !_state.value.isLoading) {
+                    sync(isNextPage = false)
+                }
+            }
+            .launchIn(viewModelScope)
     }
 
     fun onAction(action: LaunchesAction) {
         when (action) {
             LaunchesAction.Refresh -> {
-                _state.update { it.copy(currentOffset = 0, endReached = false, launches = emptyList()) }
-                loadLaunches()
+                sync(isNextPage = false)
             }
             LaunchesAction.LoadNextPage -> {
-                loadLaunches(isNextPage = true)
+                sync(isNextPage = true)
             }
             LaunchesAction.Retry -> {
-                loadLaunches(isNextPage = _state.value.currentOffset > 0)
+                sync(isNextPage = _state.value.currentOffset > 0)
             }
         }
     }
 
-    private fun loadLaunches(isNextPage: Boolean = false) {
+    private fun sync(isNextPage: Boolean) {
         if (_state.value.isLoading || _state.value.isPaginationLoading || _state.value.endReached) return
 
         viewModelScope.launch {
@@ -64,9 +77,10 @@ class LaunchesViewModel(
                 _state.update { it.copy(isLoading = true, error = null) }
             }
             
-            val result = getLaunchesUseCase.execute(
+            val offset = if (isNextPage) _state.value.currentOffset else 0
+            val result = getLaunchesUseCase.sync(
                 limit = pageSize,
-                offset = _state.value.currentOffset
+                offset = offset
             )
 
             when (result) {
@@ -78,14 +92,13 @@ class LaunchesViewModel(
                     ) }
                 }
                 is Result.Success -> {
-                    val newLaunches = result.data
                     _state.update { 
                         it.copy(
                             isLoading = false,
                             isPaginationLoading = false,
-                            launches = it.launches + newLaunches,
-                            currentOffset = it.currentOffset + newLaunches.size,
-                            endReached = newLaunches.size < pageSize
+                            // endReached logic: if we got less than requested, we reached the end
+                            // However, we don't know the total from Result<Unit>, 
+                            // so we rely on the repository to have inserted them.
                         )
                     }
                 }
