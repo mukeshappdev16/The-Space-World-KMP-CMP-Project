@@ -5,13 +5,13 @@ data class Launch(
     val agencyLaunchAttemptCountYear: Int,
     val failReason: String?,
     val id: String,
-    val image: Image,
+    val image: Image?,
     val lastUpdated: String?,
     val launchDesignator: String?,
-    val launchServiceProvider: LaunchServiceProvider,
+    val launchServiceProvider: LaunchServiceProvider?,
     val locationLaunchAttemptCount: Int,
     val locationLaunchAttemptCountYear: Int,
-    val mission: Mission,
+    val mission: Mission?,
     val name: String,
     val net: String,
     val orbitalLaunchAttemptCount: Int,
@@ -19,13 +19,14 @@ data class Launch(
     val padLaunchAttemptCount: Int,
     val padLaunchAttemptCountYear: Int,
     val responseMode: String,
-    val rocket: Rocket,
+    val rocket: Rocket?,
     val slug: String,
-    val status: Status,
+    val status: Status?,
     val url: String,
     val webcastLive: Boolean,
     val windowEnd: String,
-    val windowStart: String
+    val windowStart: String,
+    val netPrecision: Type? = null
 )
 
 data class Configuration(
@@ -61,6 +62,11 @@ data class Rocket(
 data class Status(
     val abbrev: String,
     val description: String,
+    val id: Int,
+    val name: String
+)
+
+data class Type(
     val id: Int,
     val name: String
 )

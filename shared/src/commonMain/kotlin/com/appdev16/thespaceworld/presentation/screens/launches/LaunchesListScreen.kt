@@ -1,5 +1,6 @@
 package com.appdev16.thespaceworld.presentation.screens.launches
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
@@ -27,14 +28,16 @@ import thespaceworld.shared.generated.resources.*
 @Composable
 fun LaunchesListScreen(
     viewModel: LaunchesViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onNavigateToDetail: (String) -> Unit
 ) {
     val state by viewModel.state.collectAsState()
     
     LaunchesListContent(
         state = state,
         onNavigateBack = onNavigateBack,
-        onLoadNextPage = { viewModel.onAction(LaunchesAction.LoadNextPage) }
+        onLoadNextPage = { viewModel.onAction(LaunchesAction.LoadNextPage) },
+        onNavigateToDetail = onNavigateToDetail
     )
 }
 
@@ -43,7 +46,8 @@ fun LaunchesListScreen(
 fun LaunchesListContent(
     state: LaunchesUiState,
     onNavigateBack: () -> Unit,
-    onLoadNextPage: () -> Unit
+    onLoadNextPage: () -> Unit,
+    onNavigateToDetail: (String) -> Unit
 ) {
     val scrollState = rememberLazyListState()
 
@@ -124,7 +128,10 @@ fun LaunchesListContent(
                     verticalArrangement = Arrangement.spacedBy(16.dp)
                 ) {
                     itemsIndexed(state.launches) { index, launch ->
-                        LaunchItem(launch)
+                        LaunchItem(
+                            launch = launch,
+                            onClick = { onNavigateToDetail(launch.id) }
+                        )
                     }
 
                     if (state.isPaginationLoading) {
@@ -150,18 +157,23 @@ fun LaunchesListContent(
 }
 
 @Composable
-fun LaunchItem(launch: Launch) {
+fun LaunchItem(
+    launch: Launch,
+    onClick: () -> Unit
+) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
         shape = RoundedCornerShape(12.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column {
             AsyncImage(
-                model = launch.image.imageUrl,
+                model = launch.image?.imageUrl ?: "",
                 contentDescription = launch.name,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -182,7 +194,7 @@ fun LaunchItem(launch: Launch) {
                 Spacer(modifier = Modifier.height(4.dp))
                 
                 Text(
-                    text = launch.launchServiceProvider.name,
+                    text = launch.launchServiceProvider?.name ?: "",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -194,7 +206,7 @@ fun LaunchItem(launch: Launch) {
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    StatusBadge(status = launch.status.name)
+                    StatusBadge(status = launch.status?.name ?: "")
                     Text(
                         text = launch.net.split("T").firstOrNull() ?: "",
                         style = MaterialTheme.typography.bodySmall,
@@ -231,7 +243,8 @@ fun LaunchesListPreview() {
                 launches = MockData.launches
             ),
             onNavigateBack = {},
-            onLoadNextPage = {}
+            onLoadNextPage = {},
+            onNavigateToDetail = {}
         )
     }
 }
@@ -243,7 +256,8 @@ fun LaunchesListLoadingPreview() {
         LaunchesListContent(
             state = LaunchesUiState(isLoading = true),
             onNavigateBack = {},
-            onLoadNextPage = {}
+            onLoadNextPage = {},
+            onNavigateToDetail = {}
         )
     }
 }

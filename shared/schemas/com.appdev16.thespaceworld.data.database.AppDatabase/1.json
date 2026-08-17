@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "48e2d3a874596e4f4a8dd7e2b18d39e0",
+    "identityHash": "2d3f7bed4b8f504a49b6ad2a4b66dd26",
     "entities": [
       {
         "tableName": "launches",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `net` TEXT NOT NULL, `lastUpdated` TEXT NOT NULL, `imageUrl` TEXT, `providerName` TEXT, `statusName` TEXT, `missionName` TEXT, `missionDescription` TEXT, `webcastLive` INTEGER NOT NULL, `windowEnd` TEXT NOT NULL, `windowStart` TEXT NOT NULL, PRIMARY KEY(`id`))",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `net` TEXT NOT NULL, `lastUpdated` TEXT, `failReason` TEXT, `agencyLaunchAttemptCount` INTEGER NOT NULL, `agencyLaunchAttemptCountYear` INTEGER NOT NULL, `locationLaunchAttemptCount` INTEGER NOT NULL, `locationLaunchAttemptCountYear` INTEGER NOT NULL, `orbitalLaunchAttemptCount` INTEGER NOT NULL, `orbitalLaunchAttemptCountYear` INTEGER NOT NULL, `padLaunchAttemptCount` INTEGER NOT NULL, `padLaunchAttemptCountYear` INTEGER NOT NULL, `webcastLive` INTEGER NOT NULL, `windowEnd` TEXT NOT NULL, `windowStart` TEXT NOT NULL, `slug` TEXT NOT NULL, `url` TEXT NOT NULL, `responseMode` TEXT NOT NULL, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, `provider_name` TEXT, `mission_description` TEXT, `mission_missionId` INTEGER, `mission_name` TEXT, `mission_type` TEXT, `rocket_rocketId` INTEGER, `rocket_config_fullName` TEXT, `rocket_config_configId` INTEGER, `rocket_config_name` TEXT, `rocket_config_url` TEXT, `rocket_config_variant` TEXT, `status_abbrev` TEXT, `status_description` TEXT, `status_statusId` INTEGER, `status_name` TEXT, PRIMARY KEY(`id`))",
         "fields": [
           {
             "fieldPath": "id",
@@ -29,33 +29,60 @@
           {
             "fieldPath": "lastUpdated",
             "columnName": "lastUpdated",
-            "affinity": "TEXT",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "failReason",
+            "columnName": "failReason",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "agencyLaunchAttemptCount",
+            "columnName": "agencyLaunchAttemptCount",
+            "affinity": "INTEGER",
             "notNull": true
           },
           {
-            "fieldPath": "imageUrl",
-            "columnName": "imageUrl",
-            "affinity": "TEXT"
+            "fieldPath": "agencyLaunchAttemptCountYear",
+            "columnName": "agencyLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
-            "fieldPath": "providerName",
-            "columnName": "providerName",
-            "affinity": "TEXT"
+            "fieldPath": "locationLaunchAttemptCount",
+            "columnName": "locationLaunchAttemptCount",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
-            "fieldPath": "statusName",
-            "columnName": "statusName",
-            "affinity": "TEXT"
+            "fieldPath": "locationLaunchAttemptCountYear",
+            "columnName": "locationLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
-            "fieldPath": "missionName",
-            "columnName": "missionName",
-            "affinity": "TEXT"
+            "fieldPath": "orbitalLaunchAttemptCount",
+            "columnName": "orbitalLaunchAttemptCount",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
-            "fieldPath": "missionDescription",
-            "columnName": "missionDescription",
-            "affinity": "TEXT"
+            "fieldPath": "orbitalLaunchAttemptCountYear",
+            "columnName": "orbitalLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "padLaunchAttemptCount",
+            "columnName": "padLaunchAttemptCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "padLaunchAttemptCountYear",
+            "columnName": "padLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
           },
           {
             "fieldPath": "webcastLive",
@@ -74,6 +101,114 @@
             "columnName": "windowStart",
             "affinity": "TEXT",
             "notNull": true
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseMode",
+            "columnName": "responseMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "launchServiceProvider.name",
+            "columnName": "provider_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mission.description",
+            "columnName": "mission_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mission.missionId",
+            "columnName": "mission_missionId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "mission.name",
+            "columnName": "mission_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mission.type",
+            "columnName": "mission_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.rocketId",
+            "columnName": "rocket_rocketId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rocket.configuration.fullName",
+            "columnName": "rocket_config_fullName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.configuration.configId",
+            "columnName": "rocket_config_configId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rocket.configuration.name",
+            "columnName": "rocket_config_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.configuration.url",
+            "columnName": "rocket_config_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.configuration.variant",
+            "columnName": "rocket_config_variant",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.abbrev",
+            "columnName": "status_abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.description",
+            "columnName": "status_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.statusId",
+            "columnName": "status_statusId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status.name",
+            "columnName": "status_name",
+            "affinity": "TEXT"
           }
         ],
         "primaryKey": {
@@ -86,7 +221,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '48e2d3a874596e4f4a8dd7e2b18d39e0')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d3f7bed4b8f504a49b6ad2a4b66dd26')"
     ]
   }
 }

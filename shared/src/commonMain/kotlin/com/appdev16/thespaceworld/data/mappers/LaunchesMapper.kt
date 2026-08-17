@@ -1,6 +1,6 @@
 package com.appdev16.thespaceworld.data.mappers
 
-import com.appdev16.thespaceworld.data.database.entities.LaunchEntity
+import com.appdev16.thespaceworld.data.database.entities.*
 import com.appdev16.thespaceworld.data.dto.launches.*
 import com.appdev16.thespaceworld.domain.modal.launches.*
 
@@ -9,13 +9,13 @@ fun LaunchDto.toDomain(): Launch = Launch(
     agencyLaunchAttemptCountYear = agencyLaunchAttemptCountYear,
     failReason = failReason,
     id = id,
-    image = image?.toDomain() ?: Image("", "", ""),
-    lastUpdated = lastUpdated ?: "",
+    image = image?.toDomain(),
+    lastUpdated = lastUpdated,
     launchDesignator = launchDesignator ?: "",
-    launchServiceProvider = launchServiceProvider?.toDomain() ?: LaunchServiceProvider(""),
+    launchServiceProvider = launchServiceProvider?.toDomain(),
     locationLaunchAttemptCount = locationLaunchAttemptCount,
     locationLaunchAttemptCountYear = locationLaunchAttemptCountYear,
-    mission = mission?.toDomain() ?: Mission("", 0, "", ""),
+    mission = mission?.toDomain(),
     name = name,
     net = net,
     orbitalLaunchAttemptCount = orbitalLaunchAttemptCount?.toIntOrNull() ?: 0,
@@ -23,9 +23,9 @@ fun LaunchDto.toDomain(): Launch = Launch(
     padLaunchAttemptCount = padLaunchAttemptCount,
     padLaunchAttemptCountYear = padLaunchAttemptCountYear,
     responseMode = responseMode,
-    rocket = rocket?.toDomain() ?: Rocket(Configuration(null, 0, null, null, null), 0),
+    rocket = rocket?.toDomain(),
     slug = slug,
-    status = status?.toDomain() ?: Status("", "", 0, ""),
+    status = status?.toDomain(),
     url = url,
     webcastLive = webcastLive,
     windowEnd = windowEnd,
@@ -36,40 +36,65 @@ fun LaunchDto.toEntity(): LaunchEntity = LaunchEntity(
     id = id,
     name = name,
     net = net,
-    lastUpdated = lastUpdated ?: "",
-    imageUrl = image?.imageUrl,
-    providerName = launchServiceProvider?.name,
-    statusName = status?.name,
-    missionName = mission?.name,
-    missionDescription = mission?.description,
+    lastUpdated = lastUpdated,
+    failReason = failReason,
+    agencyLaunchAttemptCount = agencyLaunchAttemptCount,
+    agencyLaunchAttemptCountYear = agencyLaunchAttemptCountYear,
+    locationLaunchAttemptCount = locationLaunchAttemptCount,
+    locationLaunchAttemptCountYear = locationLaunchAttemptCountYear,
+    orbitalLaunchAttemptCount = orbitalLaunchAttemptCount?.toIntOrNull() ?: 0,
+    orbitalLaunchAttemptCountYear = orbitalLaunchAttemptCountYear,
+    padLaunchAttemptCount = padLaunchAttemptCount,
+    padLaunchAttemptCountYear = padLaunchAttemptCountYear,
     webcastLive = webcastLive,
     windowEnd = windowEnd,
-    windowStart = windowStart
+    windowStart = windowStart,
+    slug = slug,
+    url = url,
+    responseMode = responseMode,
+    image = image?.let { ImageEntity(it.imageUrl, it.name, it.thumbnailUrl) },
+    launchServiceProvider = launchServiceProvider?.let { ProviderEntity(it.name) },
+    mission = mission?.let { MissionEntity(it.description, it.id, it.name, it.type) },
+    rocket = rocket?.let { RocketEntity(it.id, it.configuration.let { config -> 
+        ConfigurationEntity(config.fullName, config.id, config.name, config.url, config.variant) 
+    }) },
+    status = status?.let { StatusEntity(it.abbrev, it.description, it.id, it.name) }
 )
 
 fun LaunchEntity.toDomain(): Launch = Launch(
-    agencyLaunchAttemptCount = 0,
-    agencyLaunchAttemptCountYear = 0,
-    failReason = null,
+    agencyLaunchAttemptCount = agencyLaunchAttemptCount,
+    agencyLaunchAttemptCountYear = agencyLaunchAttemptCountYear,
+    failReason = failReason,
     id = id,
-    image = Image(imageUrl ?: "", "", ""),
+    image = image?.let { Image(it.imageUrl, it.name, it.thumbnailUrl) },
     lastUpdated = lastUpdated,
     launchDesignator = "",
-    launchServiceProvider = LaunchServiceProvider(providerName ?: ""),
-    locationLaunchAttemptCount = 0,
-    locationLaunchAttemptCountYear = 0,
-    mission = Mission(missionDescription ?: "", 0, missionName ?: "", ""),
+    launchServiceProvider = launchServiceProvider?.let { LaunchServiceProvider(it.name) },
+    locationLaunchAttemptCount = locationLaunchAttemptCount,
+    locationLaunchAttemptCountYear = locationLaunchAttemptCountYear,
+    mission = mission?.let { Mission(it.description, it.missionId, it.name, it.type) },
     name = name,
     net = net,
-    orbitalLaunchAttemptCount = 0,
-    orbitalLaunchAttemptCountYear = 0,
-    padLaunchAttemptCount = 0,
-    padLaunchAttemptCountYear = 0,
-    responseMode = "",
-    rocket = Rocket(Configuration(null, 0, null, null, null), 0),
-    slug = "",
-    status = Status(statusName ?: "", "", 0, statusName ?: ""),
-    url = "",
+    orbitalLaunchAttemptCount = orbitalLaunchAttemptCount,
+    orbitalLaunchAttemptCountYear = orbitalLaunchAttemptCountYear,
+    padLaunchAttemptCount = padLaunchAttemptCount,
+    padLaunchAttemptCountYear = padLaunchAttemptCountYear,
+    responseMode = responseMode,
+    rocket = rocket?.let { 
+        Rocket(
+            configuration = Configuration(
+                fullName = it.configuration?.fullName,
+                id = it.configuration?.configId ?: 0,
+                name = it.configuration?.name,
+                url = it.configuration?.url,
+                variant = it.configuration?.variant
+            ),
+            id = it.rocketId
+        ) 
+    },
+    slug = slug,
+    status = status?.let { Status(it.abbrev, it.description, it.statusId, it.name) },
+    url = url,
     webcastLive = webcastLive,
     windowEnd = windowEnd,
     windowStart = windowStart

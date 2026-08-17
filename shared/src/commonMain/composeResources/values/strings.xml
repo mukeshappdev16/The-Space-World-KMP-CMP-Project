@@ -17,4 +17,21 @@
     <string name="launches_title">Space Launches</string>
     <string name="back">Back</string>
     <string name="error_title">Oops! Something went wrong</string>
+
+    <!-- Detail Screen -->
+    <string name="mission_title">Mission</string>
+    <string name="statistics_title">Launch Statistics</string>
+    <string name="technical_specs_title">Technical Specifications</string>
+    <string name="rocket_label">Rocket</string>
+    <string name="variant_label">Variant</string>
+    <string name="designator_label">Designator</string>
+    <string name="agency_attempts_label">Agency Attempts</string>
+    <string name="location_attempts_label">Location Attempts</string>
+    <string name="orbital_attempts_label">Orbital Attempts</string>
+    <string name="fail_reason_label">Failure Reason</string>
+    <string name="window_title">Launch Window</string>
+    <string name="window_start_label">Start</string>
+    <string name="window_end_label">End</string>
+    <string name="last_updated_label">Last Updated</string>
+    <string name="no_description">No description available.</string>
 </resources>

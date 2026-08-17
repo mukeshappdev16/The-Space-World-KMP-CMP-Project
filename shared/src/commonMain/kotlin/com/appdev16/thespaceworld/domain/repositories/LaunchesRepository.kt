@@ -7,5 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface LaunchesRepository {
     fun getSpaceLaunches(): Flow<List<Launch>>
+    fun getLaunchById(id: String): Flow<Launch?>
     suspend fun syncLaunches(limit: Int, offset: Int): Result<Unit, NetworkError>
 }

@@ -23,6 +23,10 @@ class LaunchesRepositoryImpl(
         }
     }
 
+    override fun getLaunchById(id: String): Flow<Launch?> {
+        return launchDao.getLaunchById(id).map { it?.toDomain() }
+    }
+
     override suspend fun syncLaunches(limit: Int, offset: Int): Result<Unit, NetworkError> {
         val result = remoteDataSource.getLaunches(limit, offset)
         return when (result) {

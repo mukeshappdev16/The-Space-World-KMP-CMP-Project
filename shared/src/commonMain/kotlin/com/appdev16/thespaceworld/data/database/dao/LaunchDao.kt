@@ -12,6 +12,9 @@ interface LaunchDao {
     @Query("SELECT * FROM launches ORDER BY net DESC")
     fun getLaunches(): Flow<List<LaunchEntity>>
 
+    @Query("SELECT * FROM launches WHERE id = :id")
+    fun getLaunchById(id: String): Flow<LaunchEntity?>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertLaunches(launches: List<LaunchEntity>)
 

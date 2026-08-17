@@ -9,11 +9,16 @@ import com.appdev16.thespaceworld.presentation.navigation.Screen
 import com.appdev16.thespaceworld.presentation.screens.home.HomeScreen
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesListScreen
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesViewModel
+import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailScreen
+import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.splash.SplashScreen
 import androidx.compose.ui.tooling.preview.Preview
 import org.koin.compose.viewmodel.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
+
+import androidx.navigation.toRoute
 
 @Composable
 @Preview
@@ -48,6 +53,22 @@ fun App() {
             composable<Screen.Launches> {
                 val viewModel = koinViewModel<LaunchesViewModel>()
                 LaunchesListScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToDetail = { id ->
+                        navController.navigate(Screen.LaunchDetail(id))
+                    }
+                )
+            }
+
+            composable<Screen.LaunchDetail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.LaunchDetail>()
+                val viewModel = koinViewModel<LaunchDetailViewModel>(
+                    parameters = { parametersOf(route.id) }
+                )
+                LaunchDetailScreen(
                     viewModel = viewModel,
                     onNavigateBack = {
                         navController.popBackStack()

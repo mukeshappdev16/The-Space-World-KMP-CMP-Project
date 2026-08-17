@@ -11,4 +11,7 @@ sealed interface Screen {
     
     @Serializable
     data object Launches : Screen
+    
+    @Serializable
+    data class LaunchDetail(val id: String) : Screen
 }
