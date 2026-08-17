@@ -2,15 +2,24 @@ package com.appdev16.thespaceworld.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
-val SpaceBlack = Color(0xFF0B0D17)
-val SpaceDarkGray = Color(0xFF1B1D27)
-val SpaceBlue = Color(0xFFD0D6F9)
-val SpaceWhite = Color(0xFFFFFFFF)
-val SpaceAccent = Color(0xFF4C6EF5)
+// Space Palette - Deep & Vibrant
+val SpaceBlack = Color(0xFF06070E)
+val SpaceDark = Color(0xFF0B0D1C)
+val SpaceDeepBlue = Color(0xFF1B1D3D)
+val SpacePurple = Color(0xFF6C63FF)
+val SpaceCyan = Color(0xFF00F5FF)
+val SpacePink = Color(0xFFFF00E5)
+val SpaceWhite = Color(0xFFF8F9FE)
 
-val PrimaryDark = Color(0xFF4C6EF5)
-val OnPrimaryDark = Color(0xFFFFFFFF)
-val SecondaryDark = Color(0xFFD0D6F9)
-val BackgroundDark = Color(0xFF0B0D17)
-val SurfaceDark = Color(0xFF1B1D27)
-val OnSurfaceDark = Color(0xFFD0D6F9)
+// Functional Colors
+val PrimaryDark = SpaceCyan
+val OnPrimaryDark = SpaceBlack
+val SecondaryDark = SpacePurple
+val BackgroundDark = SpaceBlack
+val SurfaceDark = SpaceDark
+val OnSurfaceDark = SpaceWhite
+
+// Gradients
+val SpaceGradient = listOf(SpaceBlack, SpaceDeepBlue)
+val AccentGradient = listOf(SpaceCyan, SpacePurple)
+val CardGradient = listOf(SpaceDark, SpaceDeepBlue.copy(alpha = 0.5f))

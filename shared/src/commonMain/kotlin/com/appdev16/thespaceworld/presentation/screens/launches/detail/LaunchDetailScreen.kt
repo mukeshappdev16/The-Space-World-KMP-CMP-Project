@@ -1,5 +1,6 @@
 package com.appdev16.thespaceworld.presentation.screens.launches.detail
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,12 +13,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.appdev16.thespaceworld.presentation.screens.launches.StatusBadge
+import com.appdev16.thespaceworld.presentation.theme.AccentGradient
+import com.appdev16.thespaceworld.presentation.theme.SpaceGradient
 import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
 import com.appdev16.thespaceworld.presentation.util.MockData
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,142 +49,155 @@ fun LaunchDetailContent(
     state: LaunchDetailUiState,
     onNavigateBack: () -> Unit
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(state.launch?.name ?: "", fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(Res.string.back)
-                        )
-                    }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground
-                )
-            )
-        },
-        containerColor = MaterialTheme.colorScheme.background
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-            if (state.isLoading) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            } else if (state.launch != null) {
-                val launch = state.launch
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    AsyncImage(
-                        model = launch.image?.imageUrl ?: "",
-                        contentDescription = launch.name,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(300.dp),
-                        contentScale = ContentScale.Crop
-                    )
-                    
-                    Column(modifier = Modifier.padding(24.dp)) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            StatusBadge(status = launch.status?.name ?: "")
-                            Text(
-                                text = launch.net.split("T").firstOrNull() ?: "",
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Brush.verticalGradient(SpaceGradient))
+    ) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                TopAppBar(
+                    title = { Text(state.launch?.name ?: "", fontWeight = FontWeight.Black, letterSpacing = 1.sp) },
+                    navigationIcon = {
+                        IconButton(onClick = onNavigateBack) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(Res.string.back),
+                                tint = Color.White
                             )
                         }
-                        
-                        Spacer(modifier = Modifier.height(16.dp))
-                        
-                        Text(
-                            text = launch.name,
-                            style = MaterialTheme.typography.headlineMedium,
-                            fontWeight = FontWeight.Bold
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        titleContentColor = Color.White
+                    )
+                )
+            }
+        ) { padding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
+                if (state.isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                } else if (state.launch != null) {
+                    val launch = state.launch
+                    Column(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .verticalScroll(rememberScrollState())
+                    ) {
+                        AsyncImage(
+                            model = launch.image?.imageUrl ?: "",
+                            contentDescription = launch.name,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(350.dp),
+                            contentScale = ContentScale.Crop
                         )
                         
-                        Text(
-                            text = launch.launchServiceProvider?.name ?: "",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.primary
-                        )
-                        
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Mission Section
-                        SectionTitle(stringResource(Res.string.mission_title))
-                        Text(
-                            text = launch.mission?.description ?: stringResource(Res.string.no_description),
-                            style = MaterialTheme.typography.bodyLarge,
-                            modifier = Modifier.padding(vertical = 8.dp)
-                        )
-
-                        if (!launch.failReason.isNullOrBlank()) {
-                            Card(
-                                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.errorContainer),
-                                modifier = Modifier.padding(vertical = 8.dp)
+                        Column(
+                            modifier = Modifier
+                                .offset(y = (-30).dp)
+                                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                                .background(MaterialTheme.colorScheme.background)
+                                .padding(24.dp)
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Column(modifier = Modifier.padding(16.dp)) {
-                                    Text(
-                                        text = stringResource(Res.string.fail_reason_label),
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.onErrorContainer,
-                                        fontWeight = FontWeight.Bold
-                                    )
-                                    Text(
-                                        text = launch.failReason,
-                                        style = MaterialTheme.typography.bodyMedium,
-                                        color = MaterialTheme.colorScheme.onErrorContainer
-                                    )
+                                StatusBadge(status = launch.status?.name ?: "")
+                                Text(
+                                    text = launch.net.split("T").firstOrNull() ?: "",
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            
+                            Spacer(modifier = Modifier.height(20.dp))
+                            
+                            Text(
+                                text = launch.name,
+                                style = MaterialTheme.typography.headlineMedium,
+                                fontWeight = FontWeight.Black,
+                                color = Color.White
+                            )
+                            
+                            Text(
+                                text = launch.launchServiceProvider?.name ?: "",
+                                style = MaterialTheme.typography.titleMedium,
+                                color = MaterialTheme.colorScheme.primary,
+                                fontWeight = FontWeight.Bold
+                            )
+                            
+                            Spacer(modifier = Modifier.height(32.dp))
+
+                            SectionTitle(stringResource(Res.string.mission_title))
+                            Text(
+                                text = launch.mission?.description ?: stringResource(Res.string.no_description),
+                                style = MaterialTheme.typography.bodyLarge,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                            )
+
+                            if (!launch.failReason.isNullOrBlank()) {
+                                Card(
+                                    colors = CardDefaults.cardColors(containerColor = Color(0xFFF44336).copy(alpha = 0.1f)),
+                                    border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF44336).copy(alpha = 0.5f)),
+                                    modifier = Modifier.padding(vertical = 16.dp).fillMaxWidth(),
+                                    shape = RoundedCornerShape(16.dp)
+                                ) {
+                                    Column(modifier = Modifier.padding(16.dp)) {
+                                        Text(
+                                            text = stringResource(Res.string.fail_reason_label).uppercase(),
+                                            style = MaterialTheme.typography.labelMedium,
+                                            color = Color(0xFFE57373),
+                                            fontWeight = FontWeight.Black
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                        Text(
+                                            text = launch.failReason,
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = Color.White.copy(alpha = 0.9f)
+                                        )
+                                    }
                                 }
                             }
+
+                            Spacer(modifier = Modifier.height(32.dp))
+
+                            SectionTitle(stringResource(Res.string.statistics_title))
+                            StatGrid(launch)
+
+                            Spacer(modifier = Modifier.height(32.dp))
+
+                            SectionTitle(stringResource(Res.string.technical_specs_title))
+                            DetailInfoRow(stringResource(Res.string.rocket_label), launch.rocket?.configuration?.fullName ?: "N/A")
+                            DetailInfoRow(stringResource(Res.string.variant_label), launch.rocket?.configuration?.variant ?: "N/A")
+                            DetailInfoRow(stringResource(Res.string.designator_label), launch.launchDesignator ?: "N/A")
+
+                            Spacer(modifier = Modifier.height(32.dp))
+
+                            SectionTitle(stringResource(Res.string.window_title))
+                            DetailInfoRow(stringResource(Res.string.window_start_label), launch.windowStart)
+                            DetailInfoRow(stringResource(Res.string.window_end_label), launch.windowEnd)
+
+                            Spacer(modifier = Modifier.height(48.dp))
+                            
+                            Text(
+                                text = "${stringResource(Res.string.last_updated_label)}: ${launch.lastUpdated ?: "N/A"}",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
+                                modifier = Modifier.align(Alignment.CenterHorizontally)
+                            )
                         }
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Statistics Section
-                        SectionTitle(stringResource(Res.string.statistics_title))
-                        StatGrid(launch)
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Technical Specs Section
-                        SectionTitle(stringResource(Res.string.technical_specs_title))
-                        DetailInfoRow(stringResource(Res.string.rocket_label), launch.rocket?.configuration?.fullName ?: "N/A")
-                        DetailInfoRow(stringResource(Res.string.variant_label), launch.rocket?.configuration?.variant ?: "N/A")
-                        DetailInfoRow(stringResource(Res.string.designator_label), launch.launchDesignator ?: "N/A")
-                        DetailInfoRow("Slug", launch.slug)
-
-                        Spacer(modifier = Modifier.height(24.dp))
-
-                        // Window Section
-                        SectionTitle(stringResource(Res.string.window_title))
-                        DetailInfoRow(stringResource(Res.string.window_start_label), launch.windowStart)
-                        DetailInfoRow(stringResource(Res.string.window_end_label), launch.windowEnd)
-
-                        Spacer(modifier = Modifier.height(32.dp))
-                        
-                        Text(
-                            text = "${stringResource(Res.string.last_updated_label)}: ${launch.lastUpdated ?: "N/A"}",
-                            style = MaterialTheme.typography.labelSmall,
-                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
-                            modifier = Modifier.align(Alignment.CenterHorizontally)
-                        )
                     }
                 }
             }
@@ -188,19 +207,32 @@ fun LaunchDetailContent(
 
 @Composable
 fun SectionTitle(title: String) {
-    Text(
-        text = title,
-        style = MaterialTheme.typography.titleLarge,
-        fontWeight = FontWeight.Bold,
-        modifier = Modifier.padding(bottom = 8.dp)
-    )
-    HorizontalDivider(modifier = Modifier.padding(bottom = 12.dp))
+    Column(modifier = Modifier.padding(bottom = 16.dp)) {
+        Text(
+            text = title.uppercase(),
+            style = MaterialTheme.typography.labelMedium,
+            fontWeight = FontWeight.Black,
+            color = MaterialTheme.colorScheme.primary,
+            letterSpacing = 2.sp
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(
+                    Brush.linearGradient(
+                        listOf(MaterialTheme.colorScheme.primary, Color.Transparent)
+                    )
+                )
+        )
+    }
 }
 
 @Composable
 fun StatGrid(launch: com.appdev16.thespaceworld.domain.modal.launches.Launch) {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             StatCard(
                 modifier = Modifier.weight(1f),
                 label = stringResource(Res.string.agency_attempts_label),
@@ -216,7 +248,7 @@ fun StatGrid(launch: com.appdev16.thespaceworld.domain.modal.launches.Launch) {
                 icon = Icons.Default.Place
             )
         }
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             StatCard(
                 modifier = Modifier.weight(1f),
                 label = stringResource(Res.string.orbital_attempts_label),
@@ -245,19 +277,35 @@ fun StatCard(
 ) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f)),
+        border = androidx.compose.foundation.BorderStroke(0.5.dp, Color.White.copy(alpha = 0.1f))
     ) {
-        Column(modifier = Modifier.padding(12.dp)) {
+        Column(modifier = Modifier.padding(16.dp)) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(20.dp)
+                modifier = Modifier.size(24.dp)
             )
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = value, style = MaterialTheme.typography.titleLarge, fontWeight = FontWeight.ExtraBold)
-            Text(text = label, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f))
-            Text(text = subValue, style = MaterialTheme.typography.labelSmall, color = MaterialTheme.colorScheme.primary.copy(alpha = 0.8f))
+            Spacer(modifier = Modifier.height(12.dp))
+            Text(
+                text = value, 
+                style = MaterialTheme.typography.headlineSmall, 
+                fontWeight = FontWeight.Black,
+                color = Color.White
+            )
+            Text(
+                text = label, 
+                style = MaterialTheme.typography.labelSmall, 
+                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = subValue, 
+                style = MaterialTheme.typography.labelSmall, 
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f)
+            )
         }
     }
 }
@@ -267,18 +315,21 @@ fun DetailInfoRow(label: String, value: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
+            .padding(vertical = 10.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
+            fontWeight = FontWeight.Medium
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.Bold,
+            color = Color.White
         )
     }
 }

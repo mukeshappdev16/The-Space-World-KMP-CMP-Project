@@ -1,5 +1,6 @@
 package com.appdev16.thespaceworld.presentation.screens.launches
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -13,12 +14,17 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.appdev16.thespaceworld.domain.modal.launches.Launch
+import com.appdev16.thespaceworld.presentation.theme.AccentGradient
+import com.appdev16.thespaceworld.presentation.theme.SpaceGradient
 import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
 import com.appdev16.thespaceworld.presentation.util.MockData
 import androidx.compose.ui.tooling.preview.Preview
@@ -51,7 +57,6 @@ fun LaunchesListContent(
 ) {
     val scrollState = rememberLazyListState()
 
-    // Detection for infinite scroll
     val shouldLoadNextPage = remember(scrollState, state.launches.size, state.isLoading, state.isPaginationLoading, state.endReached) {
         derivedStateOf {
             val layoutInfo = scrollState.layoutInfo
@@ -72,81 +77,87 @@ fun LaunchesListContent(
         }
     }
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(stringResource(Res.string.launches_title), fontWeight = FontWeight.Bold) },
-                navigationIcon = {
-                    IconButton(onClick = onNavigateBack) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = stringResource(Res.string.back)
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Brush.verticalGradient(SpaceGradient))
+    ) {
+        Scaffold(
+            containerColor = Color.Transparent,
+            topBar = {
+                TopAppBar(
+                    title = { Text(stringResource(Res.string.launches_title), fontWeight = FontWeight.Black, letterSpacing = 2.sp) },
+                    navigationIcon = {
+                        IconButton(onClick = onNavigateBack) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = stringResource(Res.string.back)
+                            )
+                        }
+                    },
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = Color.Transparent,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onBackground
+                    )
+                )
+            }
+        ) { padding ->
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(padding)
+            ) {
+                if (state.isLoading && state.launches.isEmpty()) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.align(Alignment.Center),
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                } else if (state.error != null && state.launches.isEmpty()) {
+                    Column(
+                        modifier = Modifier.align(Alignment.Center).padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = stringResource(Res.string.error_title),
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = state.error.toString(),
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
                         )
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                    titleContentColor = MaterialTheme.colorScheme.onBackground,
-                    navigationIconContentColor = MaterialTheme.colorScheme.onBackground
-                )
-            )
-        },
-        containerColor = MaterialTheme.colorScheme.background
-    ) { padding ->
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-            if (state.isLoading && state.launches.isEmpty()) {
-                CircularProgressIndicator(
-                    modifier = Modifier.align(Alignment.Center),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            } else if (state.error != null && state.launches.isEmpty()) {
-                Column(
-                    modifier = Modifier.align(Alignment.Center).padding(24.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text(
-                        text = stringResource(Res.string.error_title),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = state.error.toString(),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
-                    )
-                }
-            } else {
-                LazyColumn(
-                    state = scrollState,
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
-                ) {
-                    itemsIndexed(state.launches) { index, launch ->
-                        LaunchItem(
-                            launch = launch,
-                            onClick = { onNavigateToDetail(launch.id) }
-                        )
-                    }
+                } else {
+                    LazyColumn(
+                        state = scrollState,
+                        modifier = Modifier.fillMaxSize(),
+                        contentPadding = PaddingValues(16.dp),
+                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                    ) {
+                        itemsIndexed(state.launches) { _, launch ->
+                            LaunchItem(
+                                launch = launch,
+                                onClick = { onNavigateToDetail(launch.id) }
+                            )
+                        }
 
-                    if (state.isPaginationLoading) {
-                        item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                contentAlignment = Alignment.Center
-                            ) {
-                                CircularProgressIndicator(
-                                    modifier = Modifier.size(32.dp),
-                                    strokeWidth = 2.dp,
-                                    color = MaterialTheme.colorScheme.primary
-                                )
+                        if (state.isPaginationLoading) {
+                            item {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(32.dp),
+                                        strokeWidth = 2.dp,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                }
                             }
                         }
                     }
@@ -165,22 +176,39 @@ fun LaunchItem(
         modifier = Modifier
             .fillMaxWidth()
             .clickable(onClick = onClick),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(24.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.15f)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        border = androidx.compose.foundation.BorderStroke(0.5.dp, Color.White.copy(alpha = 0.2f))
     ) {
         Column {
-            AsyncImage(
-                model = launch.image?.imageUrl ?: "",
-                contentDescription = launch.name,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(180.dp)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
-                contentScale = ContentScale.Crop
-            )
+            Box {
+                AsyncImage(
+                    model = launch.image?.imageUrl ?: "",
+                    contentDescription = launch.name,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp)
+                        .clip(RoundedCornerShape(topStart = 24.dp, topEnd = 24.dp)),
+                    contentScale = ContentScale.Crop
+                )
+                
+                Surface(
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(12.dp),
+                    color = Color.Black.copy(alpha = 0.6f),
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Text(
+                        text = launch.net.split("T").firstOrNull() ?: "",
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = Color.White
+                    )
+                }
+            }
             
             Column(modifier = Modifier.padding(16.dp)) {
                 Text(
@@ -188,30 +216,24 @@ fun LaunchItem(
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis
+                    overflow = TextOverflow.Ellipsis,
+                    color = Color.White
                 )
                 
                 Spacer(modifier = Modifier.height(4.dp))
-                
-                Text(
-                    text = launch.launchServiceProvider?.name ?: "",
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.primary
-                )
-                
-                Spacer(modifier = Modifier.height(8.dp))
                 
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    StatusBadge(status = launch.status?.name ?: "")
                     Text(
-                        text = launch.net.split("T").firstOrNull() ?: "",
+                        text = launch.launchServiceProvider?.name ?: "",
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        color = MaterialTheme.colorScheme.primary,
+                        fontWeight = FontWeight.Medium
                     )
+                    StatusBadge(status = launch.status?.name ?: "")
                 }
             }
         }
@@ -220,16 +242,28 @@ fun LaunchItem(
 
 @Composable
 fun StatusBadge(status: String) {
+    val backgroundColor = when {
+        status.contains("Success", ignoreCase = true) -> Color(0xFF4CAF50).copy(alpha = 0.2f)
+        status.contains("Fail", ignoreCase = true) -> Color(0xFFF44336).copy(alpha = 0.2f)
+        else -> MaterialTheme.colorScheme.secondary.copy(alpha = 0.2f)
+    }
+    val textColor = when {
+        status.contains("Success", ignoreCase = true) -> Color(0xFF81C784)
+        status.contains("Fail", ignoreCase = true) -> Color(0xFFE57373)
+        else -> MaterialTheme.colorScheme.secondary
+    }
+
     Surface(
-        color = MaterialTheme.colorScheme.secondary.copy(alpha = 0.1f),
-        shape = RoundedCornerShape(4.dp)
+        color = backgroundColor,
+        shape = RoundedCornerShape(8.dp)
     ) {
         Text(
-            text = status,
+            text = status.uppercase(),
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.secondary,
-            fontWeight = FontWeight.Bold
+            color = textColor,
+            fontWeight = FontWeight.Black,
+            fontSize = 9.sp
         )
     }
 }
@@ -242,19 +276,6 @@ fun LaunchesListPreview() {
             state = LaunchesUiState(
                 launches = MockData.launches
             ),
-            onNavigateBack = {},
-            onLoadNextPage = {},
-            onNavigateToDetail = {}
-        )
-    }
-}
-
-@Preview
-@Composable
-fun LaunchesListLoadingPreview() {
-    TheSpaceWorldTheme {
-        LaunchesListContent(
-            state = LaunchesUiState(isLoading = true),
             onNavigateBack = {},
             onLoadNextPage = {},
             onNavigateToDetail = {}
