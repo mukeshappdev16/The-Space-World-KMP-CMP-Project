@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e57f121c01e6fb7b7eccfb8b0826001b",
+    "identityHash": "a9d10d842116de08a2a08b305417fbce",
     "entities": [
       {
         "tableName": "launches",
@@ -334,11 +334,150 @@
             "id"
           ]
         }
+      },
+      {
+        "tableName": "agencies",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `featured` INTEGER NOT NULL, `countryCode` TEXT, `abbrev` TEXT, `description` TEXT, `administrator` TEXT, `foundingYear` TEXT, `totalLaunchCount` INTEGER NOT NULL, `successfulLaunches` INTEGER NOT NULL, `failedLaunches` INTEGER NOT NULL, `pendingLaunches` INTEGER NOT NULL, `infoUrl` TEXT, `wikiUrl` TEXT, `type_typeId` INTEGER, `type_name` TEXT, `image_imageId` INTEGER, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, `logo_imageId` INTEGER, `logo_imageUrl` TEXT, `logo_name` TEXT, `logo_thumbnailUrl` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "featured",
+            "columnName": "featured",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryCode",
+            "columnName": "countryCode",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "abbrev",
+            "columnName": "abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "administrator",
+            "columnName": "administrator",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "foundingYear",
+            "columnName": "foundingYear",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "totalLaunchCount",
+            "columnName": "totalLaunchCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "successfulLaunches",
+            "columnName": "successfulLaunches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "failedLaunches",
+            "columnName": "failedLaunches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingLaunches",
+            "columnName": "pendingLaunches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "infoUrl",
+            "columnName": "infoUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "wikiUrl",
+            "columnName": "wikiUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type.typeId",
+            "columnName": "type_typeId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "type.name",
+            "columnName": "type_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageId",
+            "columnName": "image_imageId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logo.imageId",
+            "columnName": "logo_imageId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "logo.imageUrl",
+            "columnName": "logo_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logo.name",
+            "columnName": "logo_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logo.thumbnailUrl",
+            "columnName": "logo_thumbnailUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e57f121c01e6fb7b7eccfb8b0826001b')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'a9d10d842116de08a2a08b305417fbce')"
     ]
   }
 }

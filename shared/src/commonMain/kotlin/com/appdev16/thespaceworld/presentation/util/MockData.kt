@@ -1,5 +1,6 @@
 package com.appdev16.thespaceworld.presentation.util
 
+import com.appdev16.thespaceworld.domain.modal.agencies.*
 import com.appdev16.thespaceworld.domain.modal.events.*
 import com.appdev16.thespaceworld.domain.modal.launches.*
 
@@ -132,6 +133,54 @@ object MockData {
             location = "Paris, France",
             type = EventType(3, "Press Event"),
             webcastLive = true
+        )
+    )
+
+    val agency = Agency(
+        id = 1,
+        name = "National Aeronautics and Space Administration",
+        featured = true,
+        countryCode = "USA",
+        abbrev = "NASA",
+        description = "NASA is an independent agency of the US federal government responsible for the civil space program, aeronautics research, and space research.",
+        administrator = "Bill Nelson",
+        foundingYear = "1958",
+        type = AgencyType(1, "Government"),
+        image = AgencyImage(
+            id = 1,
+            imageUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/agency_images/national2520aeronautics2520and2520space2520administration_image_20190207032448.jpeg",
+            name = "NASA Image",
+            thumbnailUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/agency_images/national2520aeronautics2520and2520space2520administration_image_20190207032448.jpeg"
+        ),
+        logo = AgencyImage(
+            id = 2,
+            imageUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/logo/national2520aeronautics2520and2520space2520administration_logo_20190207032448.png",
+            name = "NASA Logo",
+            thumbnailUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/logo/national2520aeronautics2520and2520space2520administration_logo_20190207032448.png"
+        ),
+        totalLaunchCount = 1000,
+        successfulLaunches = 950,
+        failedLaunches = 20,
+        pendingLaunches = 30,
+        infoUrl = "https://www.nasa.gov",
+        wikiUrl = "https://en.wikipedia.org/wiki/NASA"
+    )
+
+    val agencies = listOf(
+        agency,
+        agency.copy(
+            id = 2,
+            name = "SpaceX",
+            abbrev = "SpX",
+            countryCode = "USA",
+            type = AgencyType(2, "Commercial")
+        ),
+        agency.copy(
+            id = 3,
+            name = "European Space Agency",
+            abbrev = "ESA",
+            countryCode = "FRA,ITA,DEU",
+            type = AgencyType(3, "Multinational")
         )
     )
 }

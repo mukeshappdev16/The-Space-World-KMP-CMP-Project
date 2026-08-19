@@ -1,5 +1,7 @@
 package com.appdev16.thespaceworld.di
 
+import com.appdev16.thespaceworld.domain.usecase.GetAgenciesUseCase
+import com.appdev16.thespaceworld.domain.usecase.GetAgencyDetailUseCase
 import com.appdev16.thespaceworld.domain.usecase.GetEventDetailUseCase
 import com.appdev16.thespaceworld.domain.usecase.GetEventsUseCase
 import com.appdev16.thespaceworld.domain.usecase.GetLaunchDetailUseCase
@@ -11,4 +13,6 @@ val useCaseModule = module {
     factory { GetLaunchDetailUseCase(get()) }
     factory { GetEventsUseCase(get()) }
     factory { GetEventDetailUseCase(get()) }
+    factory { GetAgenciesUseCase(get()) }
+    factory { GetAgencyDetailUseCase(get()) }
 }

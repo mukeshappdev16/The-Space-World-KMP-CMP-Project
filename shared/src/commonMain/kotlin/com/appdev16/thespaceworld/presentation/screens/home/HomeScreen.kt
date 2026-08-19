@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.Newspaper
@@ -42,6 +43,7 @@ data class HomeMenuItem(
 fun HomeScreen(
     onNavigateToLaunches: () -> Unit,
     onNavigateToEvents: () -> Unit,
+    onNavigateToAgencies: () -> Unit,
     onNavigateToNews: () -> Unit
 ) {
     val menuItems = remember {
@@ -57,6 +59,12 @@ fun HomeScreen(
                 subtitle = Res.string.home_events_subtitle,
                 icon = Icons.Default.Event,
                 onClick = onNavigateToEvents
+            ),
+            HomeMenuItem(
+                title = Res.string.home_agencies_title,
+                subtitle = Res.string.home_agencies_subtitle,
+                icon = Icons.Default.Business,
+                onClick = onNavigateToAgencies
             ),
             HomeMenuItem(
                 title = Res.string.home_news_title,

@@ -9,6 +9,8 @@
     <string name="home_launches_subtitle">View upcoming and past space missions</string>
     <string name="home_events_title">Events</string>
     <string name="home_events_subtitle">Space conferences and celestial events</string>
+    <string name="home_agencies_title">Agencies</string>
+    <string name="home_agencies_subtitle">World space agencies and their missions</string>
     <string name="home_news_title">News</string>
     <string name="home_news_subtitle">Latest updates from space agencies</string>
     <string name="coming_soon">Coming Soon</string>

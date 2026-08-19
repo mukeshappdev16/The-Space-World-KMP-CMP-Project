@@ -6,6 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.appdev16.thespaceworld.presentation.navigation.Screen
+import com.appdev16.thespaceworld.presentation.screens.agencies.AgenciesListScreen
+import com.appdev16.thespaceworld.presentation.screens.agencies.AgenciesViewModel
+import com.appdev16.thespaceworld.presentation.screens.agencies.detail.AgencyDetailScreen
+import com.appdev16.thespaceworld.presentation.screens.agencies.detail.AgencyDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.EventsListScreen
 import com.appdev16.thespaceworld.presentation.screens.events.EventsViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.detail.EventDetailScreen
@@ -51,6 +55,9 @@ fun App() {
                     },
                     onNavigateToEvents = {
                         navController.navigate(Screen.Events)
+                    },
+                    onNavigateToAgencies = {
+                        navController.navigate(Screen.Agencies)
                     },
                     onNavigateToNews = { /* Coming Soon */ }
                 )
@@ -101,6 +108,32 @@ fun App() {
                     parameters = { parametersOf(route.id) }
                 )
                 EventDetailScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            composable<Screen.Agencies> {
+                val viewModel = koinViewModel<AgenciesViewModel>()
+                AgenciesListScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToDetail = { id ->
+                        navController.navigate(Screen.AgencyDetail(id))
+                    }
+                )
+            }
+
+            composable<Screen.AgencyDetail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.AgencyDetail>()
+                val viewModel = koinViewModel<AgencyDetailViewModel>(
+                    parameters = { parametersOf(route.id) }
+                )
+                AgencyDetailScreen(
                     viewModel = viewModel,
                     onNavigateBack = {
                         navController.popBackStack()

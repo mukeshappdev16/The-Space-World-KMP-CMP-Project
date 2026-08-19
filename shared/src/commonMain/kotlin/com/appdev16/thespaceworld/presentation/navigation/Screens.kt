@@ -20,4 +20,10 @@ sealed interface Screen {
     
     @Serializable
     data class EventDetail(val id: Int) : Screen
+    
+    @Serializable
+    data object Agencies : Screen
+    
+    @Serializable
+    data class AgencyDetail(val id: Int) : Screen
 }
