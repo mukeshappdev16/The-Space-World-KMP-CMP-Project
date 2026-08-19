@@ -1,5 +1,6 @@
 package com.appdev16.thespaceworld.presentation.util
 
+import com.appdev16.thespaceworld.domain.modal.events.*
 import com.appdev16.thespaceworld.domain.modal.launches.*
 
 object MockData {
@@ -93,6 +94,44 @@ object MockData {
             name = "Soyuz 2.1b | Progress MS-25",
             launchServiceProvider = LaunchServiceProvider("Roscosmos"),
             status = Status("Success", "", 1, "Success")
+        )
+    )
+
+    val event = Event(
+        date = "2023-11-15T18:00:00Z",
+        datePrecision = EventDatePrecision("second", "Second-level precision", 1, "second"),
+        description = "A space conference discussing the future of Mars exploration.",
+        id = 1,
+        image = EventImage(
+            imageUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/event_images/spacex_starship_ift-2_image_20231115180000.jpeg",
+            name = "Space Conference",
+            thumbnailUrl = "https://spacelaunchnow-prod-east.nyc3.digitaloceanspaces.com/media/event_images/spacex_starship_ift-2_image_20231115180000.jpeg"
+        ),
+        lastUpdated = "2023-11-15T18:00:00Z",
+        location = "Houston, Texas",
+        name = "Mars Exploration Conference 2023",
+        responseMode = "normal",
+        slug = "mars-exploration-conference-2023",
+        type = EventType(1, "Conference"),
+        url = "https://example.com/events/1",
+        webcastLive = true
+    )
+
+    val events = listOf(
+        event,
+        event.copy(
+            id = 2,
+            name = "Geminids Meteor Shower Peak",
+            location = "Worldwide",
+            type = EventType(2, "Celestial Event"),
+            webcastLive = false
+        ),
+        event.copy(
+            id = 3,
+            name = "ESA Press Briefing",
+            location = "Paris, France",
+            type = EventType(3, "Press Event"),
+            webcastLive = true
         )
     )
 }

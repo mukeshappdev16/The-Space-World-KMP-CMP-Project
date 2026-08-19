@@ -3,6 +3,8 @@ package com.appdev16.thespaceworld.presentation.screens.home
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
@@ -11,6 +13,7 @@ import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -22,8 +25,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.appdev16.thespaceworld.presentation.theme.AccentGradient
 import com.appdev16.thespaceworld.presentation.theme.SpaceGradient
+import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.stringResource
 import thespaceworld.shared.generated.resources.*
+
+data class HomeMenuItem(
+    val title: StringResource,
+    val subtitle: StringResource,
+    val icon: ImageVector,
+    val onClick: () -> Unit,
+    val enabled: Boolean = true
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -32,6 +44,30 @@ fun HomeScreen(
     onNavigateToEvents: () -> Unit,
     onNavigateToNews: () -> Unit
 ) {
+    val menuItems = remember {
+        listOf(
+            HomeMenuItem(
+                title = Res.string.home_launches_title,
+                subtitle = Res.string.home_launches_subtitle,
+                icon = Icons.Default.RocketLaunch,
+                onClick = onNavigateToLaunches
+            ),
+            HomeMenuItem(
+                title = Res.string.home_events_title,
+                subtitle = Res.string.home_events_subtitle,
+                icon = Icons.Default.Event,
+                onClick = onNavigateToEvents
+            ),
+            HomeMenuItem(
+                title = Res.string.home_news_title,
+                subtitle = Res.string.home_news_subtitle,
+                icon = Icons.Default.Newspaper,
+                onClick = onNavigateToNews,
+                enabled = false
+            )
+        )
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -56,43 +92,32 @@ fun HomeScreen(
                 )
             }
         ) { padding ->
-            Column(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(padding)
-                    .padding(24.dp),
+                    .padding(padding),
+                contentPadding = PaddingValues(24.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Text(
-                    text = stringResource(Res.string.home_description),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
-                    modifier = Modifier.padding(bottom = 12.dp)
-                )
+                item {
+                    Text(
+                        text = stringResource(Res.string.home_description),
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f),
+                        modifier = Modifier.padding(bottom = 12.dp)
+                    )
+                }
 
-                HomeCard(
-                    title = stringResource(Res.string.home_launches_title),
-                    subtitle = stringResource(Res.string.home_launches_subtitle),
-                    icon = Icons.Default.RocketLaunch,
-                    onClick = onNavigateToLaunches
-                )
-                
-                HomeCard(
-                    title = stringResource(Res.string.home_events_title),
-                    subtitle = stringResource(Res.string.home_events_subtitle),
-                    icon = Icons.Default.Event,
-                    onClick = onNavigateToEvents,
-                    enabled = false
-                )
-                
-                HomeCard(
-                    title = stringResource(Res.string.home_news_title),
-                    subtitle = stringResource(Res.string.home_news_subtitle),
-                    icon = Icons.Default.Newspaper,
-                    onClick = onNavigateToNews,
-                    enabled = false
-                )
+                items(menuItems) { item ->
+                    HomeCard(
+                        title = stringResource(item.title),
+                        subtitle = stringResource(item.subtitle),
+                        icon = item.icon,
+                        onClick = item.onClick,
+                        enabled = item.enabled
+                    )
+                }
             }
         }
     }

@@ -15,6 +15,9 @@
 
     <!-- Launches Screen -->
     <string name="launches_title">Space Launches</string>
+    <!-- Events Screen -->
+    <string name="events_title">Space Events</string>
+
     <string name="back">Back</string>
     <string name="error_title">Oops! Something went wrong</string>
 

@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "2d3f7bed4b8f504a49b6ad2a4b66dd26",
+    "identityHash": "e57f121c01e6fb7b7eccfb8b0826001b",
     "entities": [
       {
         "tableName": "launches",
@@ -217,11 +217,128 @@
             "id"
           ]
         }
+      },
+      {
+        "tableName": "events",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `location` TEXT NOT NULL, `date` TEXT NOT NULL, `lastUpdated` TEXT NOT NULL, `webcastLive` INTEGER NOT NULL, `url` TEXT NOT NULL, `slug` TEXT NOT NULL, `responseMode` TEXT NOT NULL, `date_precision_abbrev` TEXT, `date_precision_description` TEXT, `date_precision_precisionId` INTEGER, `date_precision_name` TEXT, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, `type_typeId` INTEGER, `type_name` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "webcastLive",
+            "columnName": "webcastLive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseMode",
+            "columnName": "responseMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "datePrecision.abbrev",
+            "columnName": "date_precision_abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "datePrecision.description",
+            "columnName": "date_precision_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "datePrecision.precisionId",
+            "columnName": "date_precision_precisionId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "datePrecision.name",
+            "columnName": "date_precision_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type.typeId",
+            "columnName": "type_typeId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "type.name",
+            "columnName": "type_name",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '2d3f7bed4b8f504a49b6ad2a4b66dd26')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'e57f121c01e6fb7b7eccfb8b0826001b')"
     ]
   }
 }
