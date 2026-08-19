@@ -8,7 +8,9 @@ import com.appdev16.thespaceworld.domain.modal.agencies.Agency
 import com.appdev16.thespaceworld.domain.repositories.AgenciesRepository
 import com.appdev16.thespaceworld.util.NetworkError
 import com.appdev16.thespaceworld.util.Result
+import com.appdev16.thespaceworld.util.map
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 
 class AgenciesRepositoryImpl(
@@ -22,8 +24,8 @@ class AgenciesRepositoryImpl(
         }
     }
 
-    override fun getAgencyById(id: Int): Flow<Agency?> {
-        return agencyDao.getAgencyById(id).map { it?.toDomain() }
+    override fun getAgencyById(id: Int): Flow<Result<Agency, NetworkError>> = flow {
+        emit(remoteDataSource.getAgencyById(id).map { it.toDomain() })
     }
 
     override suspend fun syncAgencies(limit: Int, offset: Int): Result<Unit, NetworkError> {

@@ -7,6 +7,6 @@ import kotlinx.coroutines.flow.Flow
 
 interface AgenciesRepository {
     fun getAgencies(): Flow<List<Agency>>
-    fun getAgencyById(id: Int): Flow<Agency?>
+    fun getAgencyById(id: Int): Flow<Result<Agency, NetworkError>>
     suspend fun syncAgencies(limit: Int, offset: Int): Result<Unit, NetworkError>
 }

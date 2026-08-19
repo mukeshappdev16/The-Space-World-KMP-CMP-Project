@@ -17,6 +17,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
@@ -25,6 +26,7 @@ import com.appdev16.thespaceworld.presentation.screens.launches.detail.SectionTi
 import com.appdev16.thespaceworld.presentation.theme.SpaceGradient
 import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
 import com.appdev16.thespaceworld.presentation.util.MockData
+import com.appdev16.thespaceworld.util.NetworkError
 import androidx.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.resources.stringResource
 import thespaceworld.shared.generated.resources.*
@@ -38,7 +40,8 @@ fun AgencyDetailScreen(
     
     AgencyDetailContent(
         state = state,
-        onNavigateBack = onNavigateBack
+        onNavigateBack = onNavigateBack,
+        onRetry = { viewModel.retry() }
     )
 }
 
@@ -46,7 +49,8 @@ fun AgencyDetailScreen(
 @Composable
 fun AgencyDetailContent(
     state: AgencyDetailUiState,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
+    onRetry: () -> Unit
 ) {
     Box(
         modifier = Modifier
@@ -79,110 +83,120 @@ fun AgencyDetailContent(
                     .fillMaxSize()
                     .padding(padding)
             ) {
-                if (state.isLoading) {
-                    CircularProgressIndicator(
-                        modifier = Modifier.align(Alignment.Center),
-                        color = MaterialTheme.colorScheme.primary
-                    )
-                } else if (state.agency != null) {
-                    val agency = state.agency
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .verticalScroll(rememberScrollState())
-                    ) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(250.dp)
-                                .background(Color.White.copy(alpha = 0.05f)),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            AsyncImage(
-                                model = agency.image?.imageUrl ?: "",
-                                contentDescription = agency.name,
-                                modifier = Modifier.fillMaxSize(),
-                                contentScale = ContentScale.Crop
-                            )
-                            
-                            // Logo overlay
-                            if (agency.logo != null) {
-                                Surface(
-                                    modifier = Modifier
-                                        .align(Alignment.BottomEnd)
-                                        .padding(16.dp)
-                                        .size(80.dp),
-                                    color = Color.White,
-                                    shape = RoundedCornerShape(12.dp),
-                                    tonalElevation = 8.dp
-                                ) {
-                                    AsyncImage(
-                                        model = agency.image?.imageUrl,
-                                        contentDescription = "Logo",
-                                        modifier = Modifier.padding(8.dp),
-                                        contentScale = ContentScale.Fit
-                                    )
-                                }
-                            }
-                        }
-                        
+                when {
+                    state.isLoading -> {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center),
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
+                    state.error != null -> {
+                        ErrorView(
+                            error = state.error,
+                            onRetry = onRetry,
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
+                    state.agency != null -> {
+                        val agency = state.agency
                         Column(
                             modifier = Modifier
-                                .offset(y = (-20).dp)
-                                .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
-                                .background(MaterialTheme.colorScheme.background)
-                                .padding(24.dp)
+                                .fillMaxSize()
+                                .verticalScroll(rememberScrollState())
                         ) {
-                            Text(
-                                text = agency.name,
-                                style = MaterialTheme.typography.headlineMedium,
-                                fontWeight = FontWeight.Black,
-                                color = Color.White
-                            )
-                            
-                            if (!agency.abbrev.isNullOrEmpty()) {
-                                Text(
-                                    text = agency.abbrev,
-                                    style = MaterialTheme.typography.titleMedium,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontWeight = FontWeight.Bold
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(250.dp)
+                                    .background(Color.White.copy(alpha = 0.05f)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                AsyncImage(
+                                    model = agency.image?.imageUrl ?: "",
+                                    contentDescription = agency.name,
+                                    modifier = Modifier.fillMaxSize(),
+                                    contentScale = ContentScale.Crop
                                 )
+                                
+                                // Logo overlay
+                                if (agency.logo != null) {
+                                    Surface(
+                                        modifier = Modifier
+                                            .align(Alignment.BottomEnd)
+                                            .padding(16.dp)
+                                            .size(80.dp),
+                                        color = Color.White,
+                                        shape = RoundedCornerShape(12.dp),
+                                        tonalElevation = 8.dp
+                                    ) {
+                                        AsyncImage(
+                                            model = agency.image?.imageUrl,
+                                            contentDescription = "Logo",
+                                            modifier = Modifier.padding(8.dp),
+                                            contentScale = ContentScale.Fit
+                                        )
+                                    }
+                                }
                             }
                             
-                            Spacer(modifier = Modifier.height(24.dp))
+                            Column(
+                                modifier = Modifier
+                                    .offset(y = (-20).dp)
+                                    .clip(RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp))
+                                    .background(MaterialTheme.colorScheme.background)
+                                    .padding(24.dp)
+                            ) {
+                                Text(
+                                    text = agency.name,
+                                    style = MaterialTheme.typography.headlineMedium,
+                                    fontWeight = FontWeight.Black,
+                                    color = Color.White
+                                )
+                                
+                                if (!agency.abbrev.isNullOrEmpty()) {
+                                    Text(
+                                        text = agency.abbrev,
+                                        style = MaterialTheme.typography.titleMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        fontWeight = FontWeight.Bold
+                                    )
+                                }
+                                
+                                Spacer(modifier = Modifier.height(24.dp))
 
-                            SectionTitle("DESCRIPTION")
-                            Text(
-                                text = agency.description ?: "No description available.",
-                                style = MaterialTheme.typography.bodyLarge,
-                                color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
-                            )
+                                SectionTitle("DESCRIPTION")
+                                Text(
+                                    text = agency.description ?: "No description available.",
+                                    style = MaterialTheme.typography.bodyLarge,
+                                    color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.8f)
+                                )
 
-                            Spacer(modifier = Modifier.height(32.dp))
-
-                            SectionTitle("STATISTICS")
-                            AgencyStatGrid(agency)
-
-                            Spacer(modifier = Modifier.height(32.dp))
-
-                            SectionTitle("OVERVIEW")
-                            DetailInfoRow("Type", agency.type?.name ?: "N/A")
-                            DetailInfoRow("Country", agency.countryCode ?: "N/A")
-                            DetailInfoRow("Administrator", agency.administrator ?: "N/A")
-                            DetailInfoRow("Founding Year", agency.foundingYear ?: "N/A")
-
-                            if (!agency.wikiUrl.isNullOrEmpty() || !agency.infoUrl.isNullOrEmpty()) {
                                 Spacer(modifier = Modifier.height(32.dp))
-                                SectionTitle("RESOURCES")
-                                if (!agency.infoUrl.isNullOrEmpty()) {
-                                    DetailInfoRow("Official Website", agency.infoUrl)
-                                }
-                                if (!agency.wikiUrl.isNullOrEmpty()) {
-                                    DetailInfoRow("Wikipedia", agency.wikiUrl)
-                                }
-                            }
 
-                            Spacer(modifier = Modifier.height(48.dp))
+                                SectionTitle("STATISTICS")
+                                AgencyStatGrid(agency)
+
+                                Spacer(modifier = Modifier.height(32.dp))
+
+                                SectionTitle("OVERVIEW")
+                                DetailInfoRow("Type", agency.type?.name ?: "N/A")
+                                DetailInfoRow("Country", agency.countryCode ?: "N/A")
+                                DetailInfoRow("Administrator", agency.administrator ?: "N/A")
+                                DetailInfoRow("Founding Year", agency.foundingYear ?: "N/A")
+
+                                if (!agency.wikiUrl.isNullOrEmpty() || !agency.infoUrl.isNullOrEmpty()) {
+                                    Spacer(modifier = Modifier.height(32.dp))
+                                    SectionTitle("RESOURCES")
+                                    if (!agency.infoUrl.isNullOrEmpty()) {
+                                        DetailInfoRow("Official Website", agency.infoUrl)
+                                    }
+                                    if (!agency.wikiUrl.isNullOrEmpty()) {
+                                        DetailInfoRow("Wikipedia", agency.wikiUrl)
+                                    }
+                                }
+
+                                Spacer(modifier = Modifier.height(48.dp))
+                            }
                         }
                     }
                 }
@@ -191,17 +205,50 @@ fun AgencyDetailContent(
     }
 }
 
-@Preview
 @Composable
-fun AgencyDetailPreview() {
-    TheSpaceWorldTheme {
-        AgencyDetailContent(
-            state = AgencyDetailUiState(
-                isLoading = false,
-                agency = MockData.agency
-            ),
-            onNavigateBack = {}
+fun ErrorView(
+    error: NetworkError,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.padding(24.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Icon(
+            imageVector = if (error == NetworkError.Network.NO_INTERNET) Icons.Default.WifiOff else Icons.Default.ErrorOutline,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.error,
+            modifier = Modifier.size(64.dp)
         )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            text = if (error == NetworkError.Network.NO_INTERNET) "No Internet Connection" else "Oops! Something went wrong",
+            style = MaterialTheme.typography.titleLarge,
+            color = Color.White,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = when(error) {
+                NetworkError.Network.NO_INTERNET -> "Please check your network settings and try again."
+                NetworkError.Network.SERIALIZATION -> "Data processing error. Please try again later."
+                NetworkError.Network.SERVER_ERROR -> "Server is currently unavailable. We're working on it!"
+                else -> "An unexpected error occurred. Please try again."
+            },
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),
+            textAlign = TextAlign.Center
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Button(
+            onClick = onRetry,
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+        ) {
+            Text("Retry", fontWeight = FontWeight.Bold)
+        }
     }
 }
 
@@ -240,5 +287,20 @@ fun AgencyStatGrid(agency: com.appdev16.thespaceworld.domain.modal.agencies.Agen
                 icon = Icons.Default.Upcoming
             )
         }
+    }
+}
+
+@Preview
+@Composable
+fun AgencyDetailPreview() {
+    TheSpaceWorldTheme {
+        AgencyDetailContent(
+            state = AgencyDetailUiState(
+                isLoading = false,
+                agency = MockData.agency
+            ),
+            onNavigateBack = {},
+            onRetry = {}
+        )
     }
 }
