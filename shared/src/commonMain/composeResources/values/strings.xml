@@ -15,6 +15,8 @@
     <string name="home_astronauts_subtitle">Discover the people who explore space</string>
     <string name="home_news_title">News</string>
     <string name="home_news_subtitle">Latest updates from space agencies</string>
+    <string name="home_stations_title">Space Stations</string>
+    <string name="home_stations_subtitle">Research laboratories in Earth orbit</string>
     <string name="coming_soon">Coming Soon</string>
 
     <!-- Launches Screen -->
@@ -23,6 +25,8 @@
     <string name="events_title">Space Events</string>
     <!-- Astronauts Screen -->
     <string name="astronauts_title">Astronauts</string>
+    <!-- Space Stations Screen -->
+    <string name="stations_title">Space Stations</string>
 
     <string name="back">Back</string>
     <string name="error_title">Oops! Something went wrong</string>
@@ -34,6 +38,12 @@
     <string name="rocket_label">Rocket</string>
     <string name="variant_label">Variant</string>
     <string name="designator_label">Designator</string>
+    <string name="status_label">Status</string>
+    <string name="founded_label">Founded</string>
+    <string name="deorbited_label">Deorbited</string>
+    <string name="orbit_label">Orbit</string>
+    <string name="type_label">Type</string>
+    <string name="owners_label">Owners</string>
     <string name="agency_attempts_label">Agency Attempts</string>
     <string name="location_attempts_label">Location Attempts</string>
     <string name="orbital_attempts_label">Orbital Attempts</string>

@@ -8,6 +8,8 @@ import com.appdev16.thespaceworld.presentation.screens.events.EventsViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.detail.EventDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailViewModel
+import com.appdev16.thespaceworld.presentation.screens.spacestations.SpaceStationsViewModel
+import com.appdev16.thespaceworld.presentation.screens.spacestations.detail.SpaceStationDetailViewModel
 import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
@@ -20,4 +22,6 @@ val viewModelModule = module {
     viewModel { (agencyId: Int) -> AgencyDetailViewModel(get(), agencyId) }
     viewModel { AstronautsViewModel(get()) }
     viewModel { (astronautId: Int) -> AstronautDetailViewModel(get(), astronautId) }
+    viewModel { SpaceStationsViewModel(get()) }
+    viewModel { (stationId: Int) -> SpaceStationDetailViewModel(get(), stationId) }
 }

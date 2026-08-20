@@ -11,14 +11,18 @@ import com.appdev16.thespaceworld.data.remote.EventsRemoteDataSource
 import com.appdev16.thespaceworld.data.remote.EventsRemoteDataSourceImpl
 import com.appdev16.thespaceworld.data.remote.LaunchesRemoteDataSource
 import com.appdev16.thespaceworld.data.remote.LaunchesRemoteDataSourceImpl
+import com.appdev16.thespaceworld.data.remote.SpaceStationsRemoteDataSource
+import com.appdev16.thespaceworld.data.remote.SpaceStationsRemoteDataSourceImpl
 import com.appdev16.thespaceworld.data.repositories.AgenciesRepositoryImpl
 import com.appdev16.thespaceworld.data.repositories.AstronautsRepositoryImpl
 import com.appdev16.thespaceworld.data.repositories.EventsRepositoryImpl
 import com.appdev16.thespaceworld.data.repositories.LaunchesRepositoryImpl
+import com.appdev16.thespaceworld.data.repositories.SpaceStationsRepositoryImpl
 import com.appdev16.thespaceworld.domain.repositories.AgenciesRepository
 import com.appdev16.thespaceworld.domain.repositories.AstronautsRepository
 import com.appdev16.thespaceworld.domain.repositories.EventsRepository
 import com.appdev16.thespaceworld.domain.repositories.LaunchesRepository
+import com.appdev16.thespaceworld.domain.repositories.SpaceStationsRepository
 import org.koin.dsl.module
 
 val dataModule = module {
@@ -43,4 +47,7 @@ val dataModule = module {
 
     single<AstronautsRemoteDataSource> { AstronautsRemoteDataSourceImpl(get()) }
     single<AstronautsRepository> { AstronautsRepositoryImpl(get(), get()) }
+
+    single<SpaceStationsRemoteDataSource> { SpaceStationsRemoteDataSourceImpl(get()) }
+    single<SpaceStationsRepository> { SpaceStationsRepositoryImpl(get()) }
 }

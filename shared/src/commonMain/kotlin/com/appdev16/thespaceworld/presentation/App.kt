@@ -1,5 +1,7 @@
 package com.appdev16.thespaceworld.presentation
 
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
@@ -24,6 +26,10 @@ import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesListScre
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailScreen
 import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailViewModel
+import com.appdev16.thespaceworld.presentation.screens.spacestations.SpaceStationsListScreen
+import com.appdev16.thespaceworld.presentation.screens.spacestations.SpaceStationsViewModel
+import com.appdev16.thespaceworld.presentation.screens.spacestations.detail.SpaceStationDetailScreen
+import com.appdev16.thespaceworld.presentation.screens.spacestations.detail.SpaceStationDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.splash.SplashScreen
 import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
 import org.koin.compose.viewmodel.koinViewModel
@@ -37,7 +43,11 @@ fun App() {
 
         NavHost(
             navController = navController,
-            startDestination = Screen.Splash
+            startDestination = Screen.Splash,
+            enterTransition = { slideInHorizontally { it } },
+            exitTransition = { slideOutHorizontally { -it } },
+            popEnterTransition = { slideInHorizontally { -it } },
+            popExitTransition = { slideOutHorizontally { it } }
         ) {
             composable<Screen.Splash> {
                 SplashScreen(
@@ -62,6 +72,9 @@ fun App() {
                     },
                     onNavigateToAstronauts = {
                         navController.navigate(Screen.Astronauts)
+                    },
+                    onNavigateToSpaceStations = {
+                        navController.navigate(Screen.SpaceStations)
                     },
                     onNavigateToNews = { /* Coming Soon */ }
                 )
@@ -164,6 +177,32 @@ fun App() {
                     parameters = { parametersOf(route.id) }
                 )
                 AstronautDetailScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            composable<Screen.SpaceStations> {
+                val viewModel = koinViewModel<SpaceStationsViewModel>()
+                SpaceStationsListScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToDetail = { id ->
+                        navController.navigate(Screen.SpaceStationDetail(id))
+                    }
+                )
+            }
+
+            composable<Screen.SpaceStationDetail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.SpaceStationDetail>()
+                val viewModel = koinViewModel<SpaceStationDetailViewModel>(
+                    parameters = { parametersOf(route.id) }
+                )
+                SpaceStationDetailScreen(
                     viewModel = viewModel,
                     onNavigateBack = {
                         navController.popBackStack()
