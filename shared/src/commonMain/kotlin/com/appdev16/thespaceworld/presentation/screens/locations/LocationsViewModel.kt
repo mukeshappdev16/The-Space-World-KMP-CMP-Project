@@ -1,62 +1,62 @@
-package com.appdev16.thespaceworld.presentation.screens.spacestations
+package com.appdev16.thespaceworld.presentation.screens.locations
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.appdev16.thespaceworld.domain.modal.spacestations.SpaceStation
-import com.appdev16.thespaceworld.domain.usecase.GetSpaceStationsUseCase
+import com.appdev16.thespaceworld.domain.modal.locations.Location
+import com.appdev16.thespaceworld.domain.usecase.GetLocationsUseCase
 import com.appdev16.thespaceworld.util.NetworkError
 import com.appdev16.thespaceworld.util.Result
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-sealed interface SpaceStationsAction {
-    data object Refresh : SpaceStationsAction
-    data object LoadNextPage : SpaceStationsAction
-    data object Retry : SpaceStationsAction
+sealed interface LocationsAction {
+    data object Refresh : LocationsAction
+    data object LoadNextPage : LocationsAction
+    data object Retry : LocationsAction
 }
 
-data class SpaceStationsUiState(
+data class LocationsUiState(
     val isLoading: Boolean = false,
     val isPaginationLoading: Boolean = false,
-    val stations: List<SpaceStation> = emptyList(),
+    val locations: List<Location> = emptyList(),
     val error: NetworkError? = null,
     val endReached: Boolean = false,
     val currentOffset: Int = 0
 )
 
-class SpaceStationsViewModel(
-    private val getSpaceStationsUseCase: GetSpaceStationsUseCase
+class LocationsViewModel(
+    private val getLocationsUseCase: GetLocationsUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SpaceStationsUiState())
+    private val _state = MutableStateFlow(LocationsUiState())
     val state = _state.asStateFlow()
 
     private val pageSize = 20
 
     init {
-        observeSpaceStations()
+        observeLocations()
     }
 
-    private fun observeSpaceStations() {
-        getSpaceStationsUseCase.getSpaceStations()
-            .onEach { stations ->
+    private fun observeLocations() {
+        getLocationsUseCase.getLocations()
+            .onEach { locations ->
                 _state.update { it.copy(
-                    stations = stations,
-                    currentOffset = stations.size
+                    locations = locations,
+                    currentOffset = locations.size
                 ) }
                 
-                if (stations.isEmpty() && !_state.value.isLoading) {
+                if (locations.isEmpty() && !_state.value.isLoading) {
                     sync(isNextPage = false)
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onAction(action: SpaceStationsAction) {
+    fun onAction(action: LocationsAction) {
         when (action) {
-            SpaceStationsAction.Refresh -> sync(isNextPage = false)
-            SpaceStationsAction.LoadNextPage -> sync(isNextPage = true)
-            SpaceStationsAction.Retry -> sync(isNextPage = _state.value.currentOffset > 0)
+            LocationsAction.Refresh -> sync(isNextPage = false)
+            LocationsAction.LoadNextPage -> sync(isNextPage = true)
+            LocationsAction.Retry -> sync(isNextPage = _state.value.currentOffset > 0)
         }
     }
 
@@ -71,7 +71,7 @@ class SpaceStationsViewModel(
             }
 
             val offset = if (isNextPage) _state.value.currentOffset else 0
-            val result = getSpaceStationsUseCase.sync(limit = pageSize, offset = offset)
+            val result = getLocationsUseCase.sync(limit = pageSize, offset = offset)
 
             when (result) {
                 is Result.Error -> {
@@ -86,7 +86,6 @@ class SpaceStationsViewModel(
                         it.copy(
                             isLoading = false,
                             isPaginationLoading = false
-                            // endReached logic could be added if repository provides total count or if we check result size
                         )
                     }
                 }

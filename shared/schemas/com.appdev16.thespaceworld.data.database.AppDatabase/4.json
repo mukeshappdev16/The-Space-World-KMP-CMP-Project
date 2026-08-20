@@ -1,0 +1,879 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 4,
+    "identityHash": "609d69e4d624239684b52b87c753fc07",
+    "entities": [
+      {
+        "tableName": "launches",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` TEXT NOT NULL, `name` TEXT NOT NULL, `net` TEXT NOT NULL, `lastUpdated` TEXT, `failReason` TEXT, `agencyLaunchAttemptCount` INTEGER NOT NULL, `agencyLaunchAttemptCountYear` INTEGER NOT NULL, `locationLaunchAttemptCount` INTEGER NOT NULL, `locationLaunchAttemptCountYear` INTEGER NOT NULL, `orbitalLaunchAttemptCount` INTEGER NOT NULL, `orbitalLaunchAttemptCountYear` INTEGER NOT NULL, `padLaunchAttemptCount` INTEGER NOT NULL, `padLaunchAttemptCountYear` INTEGER NOT NULL, `webcastLive` INTEGER NOT NULL, `windowEnd` TEXT NOT NULL, `windowStart` TEXT NOT NULL, `slug` TEXT NOT NULL, `url` TEXT NOT NULL, `responseMode` TEXT NOT NULL, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, `provider_name` TEXT, `mission_description` TEXT, `mission_missionId` INTEGER, `mission_name` TEXT, `mission_type` TEXT, `rocket_rocketId` INTEGER, `rocket_config_fullName` TEXT, `rocket_config_configId` INTEGER, `rocket_config_name` TEXT, `rocket_config_url` TEXT, `rocket_config_variant` TEXT, `status_abbrev` TEXT, `status_description` TEXT, `status_statusId` INTEGER, `status_name` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "net",
+            "columnName": "net",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "failReason",
+            "columnName": "failReason",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "agencyLaunchAttemptCount",
+            "columnName": "agencyLaunchAttemptCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "agencyLaunchAttemptCountYear",
+            "columnName": "agencyLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locationLaunchAttemptCount",
+            "columnName": "locationLaunchAttemptCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "locationLaunchAttemptCountYear",
+            "columnName": "locationLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orbitalLaunchAttemptCount",
+            "columnName": "orbitalLaunchAttemptCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orbitalLaunchAttemptCountYear",
+            "columnName": "orbitalLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "padLaunchAttemptCount",
+            "columnName": "padLaunchAttemptCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "padLaunchAttemptCountYear",
+            "columnName": "padLaunchAttemptCountYear",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "webcastLive",
+            "columnName": "webcastLive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowEnd",
+            "columnName": "windowEnd",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "windowStart",
+            "columnName": "windowStart",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseMode",
+            "columnName": "responseMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "launchServiceProvider.name",
+            "columnName": "provider_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mission.description",
+            "columnName": "mission_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mission.missionId",
+            "columnName": "mission_missionId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "mission.name",
+            "columnName": "mission_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "mission.type",
+            "columnName": "mission_type",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.rocketId",
+            "columnName": "rocket_rocketId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rocket.configuration.fullName",
+            "columnName": "rocket_config_fullName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.configuration.configId",
+            "columnName": "rocket_config_configId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "rocket.configuration.name",
+            "columnName": "rocket_config_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.configuration.url",
+            "columnName": "rocket_config_url",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "rocket.configuration.variant",
+            "columnName": "rocket_config_variant",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.abbrev",
+            "columnName": "status_abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.description",
+            "columnName": "status_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.statusId",
+            "columnName": "status_statusId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status.name",
+            "columnName": "status_name",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "events",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `description` TEXT NOT NULL, `location` TEXT NOT NULL, `date` TEXT NOT NULL, `lastUpdated` TEXT NOT NULL, `webcastLive` INTEGER NOT NULL, `url` TEXT NOT NULL, `slug` TEXT NOT NULL, `responseMode` TEXT NOT NULL, `date_precision_abbrev` TEXT, `date_precision_description` TEXT, `date_precision_precisionId` INTEGER, `date_precision_name` TEXT, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, `type_typeId` INTEGER, `type_name` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "location",
+            "columnName": "location",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "date",
+            "columnName": "date",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "lastUpdated",
+            "columnName": "lastUpdated",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "webcastLive",
+            "columnName": "webcastLive",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "slug",
+            "columnName": "slug",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "responseMode",
+            "columnName": "responseMode",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "datePrecision.abbrev",
+            "columnName": "date_precision_abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "datePrecision.description",
+            "columnName": "date_precision_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "datePrecision.precisionId",
+            "columnName": "date_precision_precisionId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "datePrecision.name",
+            "columnName": "date_precision_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type.typeId",
+            "columnName": "type_typeId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "type.name",
+            "columnName": "type_name",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "agencies",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `featured` INTEGER NOT NULL, `countryCode` TEXT, `abbrev` TEXT, `description` TEXT, `administrator` TEXT, `foundingYear` TEXT, `totalLaunchCount` INTEGER NOT NULL, `successfulLaunches` INTEGER NOT NULL, `failedLaunches` INTEGER NOT NULL, `pendingLaunches` INTEGER NOT NULL, `infoUrl` TEXT, `wikiUrl` TEXT, `type_typeId` INTEGER, `type_name` TEXT, `image_imageId` INTEGER, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, `logo_imageId` INTEGER, `logo_imageUrl` TEXT, `logo_name` TEXT, `logo_thumbnailUrl` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "featured",
+            "columnName": "featured",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "countryCode",
+            "columnName": "countryCode",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "abbrev",
+            "columnName": "abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "administrator",
+            "columnName": "administrator",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "foundingYear",
+            "columnName": "foundingYear",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "totalLaunchCount",
+            "columnName": "totalLaunchCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "successfulLaunches",
+            "columnName": "successfulLaunches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "failedLaunches",
+            "columnName": "failedLaunches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pendingLaunches",
+            "columnName": "pendingLaunches",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "infoUrl",
+            "columnName": "infoUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "wikiUrl",
+            "columnName": "wikiUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type.typeId",
+            "columnName": "type_typeId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "type.name",
+            "columnName": "type_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageId",
+            "columnName": "image_imageId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logo.imageId",
+            "columnName": "logo_imageId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "logo.imageUrl",
+            "columnName": "logo_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logo.name",
+            "columnName": "logo_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "logo.thumbnailUrl",
+            "columnName": "logo_thumbnailUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "astronauts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `name` TEXT NOT NULL, `inSpace` INTEGER NOT NULL, `timeInSpace` TEXT NOT NULL, `evaTime` TEXT NOT NULL, `age` INTEGER NOT NULL, `dateOfBirth` TEXT NOT NULL, `bio` TEXT NOT NULL, `flightsCount` INTEGER NOT NULL, `landingsCount` INTEGER NOT NULL, `spacewalksCount` INTEGER NOT NULL, `status_statusId` INTEGER, `status_name` TEXT, `agency_agencyId` INTEGER, `agency_name` TEXT, `agency_abbrev` TEXT, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inSpace",
+            "columnName": "inSpace",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "timeInSpace",
+            "columnName": "timeInSpace",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "evaTime",
+            "columnName": "evaTime",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "age",
+            "columnName": "age",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "dateOfBirth",
+            "columnName": "dateOfBirth",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "bio",
+            "columnName": "bio",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "flightsCount",
+            "columnName": "flightsCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "landingsCount",
+            "columnName": "landingsCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "spacewalksCount",
+            "columnName": "spacewalksCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status.statusId",
+            "columnName": "status_statusId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status.name",
+            "columnName": "status_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "agency.agencyId",
+            "columnName": "agency_agencyId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "agency.name",
+            "columnName": "agency_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "agency.abbrev",
+            "columnName": "agency_abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "space_stations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `url` TEXT NOT NULL, `name` TEXT NOT NULL, `founded` TEXT NOT NULL, `deorbited` TEXT, `description` TEXT NOT NULL, `orbit` TEXT NOT NULL, `ownersJson` TEXT NOT NULL, `status_abbrev` TEXT, `status_description` TEXT, `status_statusId` INTEGER, `status_name` TEXT, `type_typeId` INTEGER, `type_name` TEXT, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "founded",
+            "columnName": "founded",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "deorbited",
+            "columnName": "deorbited",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "orbit",
+            "columnName": "orbit",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "ownersJson",
+            "columnName": "ownersJson",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "status.abbrev",
+            "columnName": "status_abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.description",
+            "columnName": "status_description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "status.statusId",
+            "columnName": "status_statusId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "status.name",
+            "columnName": "status_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "type.typeId",
+            "columnName": "type_typeId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "type.name",
+            "columnName": "type_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "spacecrafts",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `url` TEXT NOT NULL, `name` TEXT NOT NULL, `inUse` INTEGER NOT NULL, `type_typeId` INTEGER, `type_name` TEXT, `agency_agencyId` INTEGER, `agency_name` TEXT, `agency_abbrev` TEXT, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "inUse",
+            "columnName": "inUse",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "type.typeId",
+            "columnName": "type_typeId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "type.name",
+            "columnName": "type_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "agency.agencyId",
+            "columnName": "agency_agencyId",
+            "affinity": "INTEGER"
+          },
+          {
+            "fieldPath": "agency.name",
+            "columnName": "agency_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "agency.abbrev",
+            "columnName": "agency_abbrev",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      },
+      {
+        "tableName": "locations",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `url` TEXT NOT NULL, `name` TEXT NOT NULL, `active` INTEGER NOT NULL, `description` TEXT, `longitude` REAL, `latitude` REAL, `timezoneName` TEXT, `totalLaunchCount` INTEGER NOT NULL, `totalLandingCount` INTEGER NOT NULL, `mapImage` TEXT, `countryName` TEXT, `celestialBodyName` TEXT, `image_imageUrl` TEXT, `image_name` TEXT, `image_thumbnailUrl` TEXT, PRIMARY KEY(`id`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "url",
+            "columnName": "url",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "active",
+            "columnName": "active",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "description",
+            "columnName": "description",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "longitude",
+            "columnName": "longitude",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "latitude",
+            "columnName": "latitude",
+            "affinity": "REAL"
+          },
+          {
+            "fieldPath": "timezoneName",
+            "columnName": "timezoneName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "totalLaunchCount",
+            "columnName": "totalLaunchCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "totalLandingCount",
+            "columnName": "totalLandingCount",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "mapImage",
+            "columnName": "mapImage",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "countryName",
+            "columnName": "countryName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "celestialBodyName",
+            "columnName": "celestialBodyName",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.imageUrl",
+            "columnName": "image_imageUrl",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.name",
+            "columnName": "image_name",
+            "affinity": "TEXT"
+          },
+          {
+            "fieldPath": "image.thumbnailUrl",
+            "columnName": "image_thumbnailUrl",
+            "affinity": "TEXT"
+          }
+        ],
+        "primaryKey": {
+          "autoGenerate": false,
+          "columnNames": [
+            "id"
+          ]
+        }
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, '609d69e4d624239684b52b87c753fc07')"
+    ]
+  }
+}

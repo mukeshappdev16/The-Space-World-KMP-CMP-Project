@@ -10,6 +10,10 @@ import com.appdev16.thespaceworld.domain.usecase.GetLaunchDetailUseCase
 import com.appdev16.thespaceworld.domain.usecase.GetLaunchesUseCase
 import com.appdev16.thespaceworld.domain.usecase.GetSpaceStationDetailUseCase
 import com.appdev16.thespaceworld.domain.usecase.GetSpaceStationsUseCase
+import com.appdev16.thespaceworld.domain.usecase.GetSpacecraftDetailUseCase
+import com.appdev16.thespaceworld.domain.usecase.GetSpacecraftsUseCase
+import com.appdev16.thespaceworld.domain.usecase.GetLocationDetailUseCase
+import com.appdev16.thespaceworld.domain.usecase.GetLocationsUseCase
 import org.koin.dsl.module
 
 val useCaseModule = module {
@@ -23,4 +27,8 @@ val useCaseModule = module {
     factory { GetAstronautDetailUseCase(get()) }
     factory { GetSpaceStationsUseCase(get()) }
     factory { GetSpaceStationDetailUseCase(get()) }
+    factory { GetSpacecraftsUseCase(get()) }
+    factory { GetSpacecraftDetailUseCase(get()) }
+    factory { GetLocationsUseCase(get()) }
+    factory { GetLocationDetailUseCase(get()) }
 }

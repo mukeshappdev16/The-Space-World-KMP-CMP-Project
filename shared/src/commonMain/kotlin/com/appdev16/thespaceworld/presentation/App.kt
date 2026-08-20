@@ -30,6 +30,14 @@ import com.appdev16.thespaceworld.presentation.screens.spacestations.SpaceStatio
 import com.appdev16.thespaceworld.presentation.screens.spacestations.SpaceStationsViewModel
 import com.appdev16.thespaceworld.presentation.screens.spacestations.detail.SpaceStationDetailScreen
 import com.appdev16.thespaceworld.presentation.screens.spacestations.detail.SpaceStationDetailViewModel
+import com.appdev16.thespaceworld.presentation.screens.spacecrafts.SpacecraftsListScreen
+import com.appdev16.thespaceworld.presentation.screens.spacecrafts.SpacecraftsViewModel
+import com.appdev16.thespaceworld.presentation.screens.spacecrafts.detail.SpacecraftDetailScreen
+import com.appdev16.thespaceworld.presentation.screens.spacecrafts.detail.SpacecraftDetailViewModel
+import com.appdev16.thespaceworld.presentation.screens.locations.LocationsListScreen
+import com.appdev16.thespaceworld.presentation.screens.locations.LocationsViewModel
+import com.appdev16.thespaceworld.presentation.screens.locations.detail.LocationDetailScreen
+import com.appdev16.thespaceworld.presentation.screens.locations.detail.LocationDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.splash.SplashScreen
 import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
 import org.koin.compose.viewmodel.koinViewModel
@@ -75,6 +83,12 @@ fun App() {
                     },
                     onNavigateToSpaceStations = {
                         navController.navigate(Screen.SpaceStations)
+                    },
+                    onNavigateToSpacecrafts = {
+                        navController.navigate(Screen.Spacecrafts)
+                    },
+                    onNavigateToLocations = {
+                        navController.navigate(Screen.Locations)
                     },
                     onNavigateToNews = { /* Coming Soon */ }
                 )
@@ -203,6 +217,58 @@ fun App() {
                     parameters = { parametersOf(route.id) }
                 )
                 SpaceStationDetailScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            composable<Screen.Spacecrafts> {
+                val viewModel = koinViewModel<SpacecraftsViewModel>()
+                SpacecraftsListScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToDetail = { id ->
+                        navController.navigate(Screen.SpacecraftDetail(id))
+                    }
+                )
+            }
+
+            composable<Screen.SpacecraftDetail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.SpacecraftDetail>()
+                val viewModel = koinViewModel<SpacecraftDetailViewModel>(
+                    parameters = { parametersOf(route.id) }
+                )
+                SpacecraftDetailScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            composable<Screen.Locations> {
+                val viewModel = koinViewModel<LocationsViewModel>()
+                LocationsListScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToDetail = { id ->
+                        navController.navigate(Screen.LocationDetail(id))
+                    }
+                )
+            }
+
+            composable<Screen.LocationDetail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.LocationDetail>()
+                val viewModel = koinViewModel<LocationDetailViewModel>(
+                    parameters = { parametersOf(route.id) }
+                )
+                LocationDetailScreen(
                     viewModel = viewModel,
                     onNavigateBack = {
                         navController.popBackStack()

@@ -17,6 +17,10 @@
     <string name="home_news_subtitle">Latest updates from space agencies</string>
     <string name="home_stations_title">Space Stations</string>
     <string name="home_stations_subtitle">Research laboratories in Earth orbit</string>
+    <string name="home_spacecrafts_title">Spacecrafts</string>
+    <string name="home_spacecrafts_subtitle">Spacecraft configurations and designs</string>
+    <string name="home_locations_title">Locations</string>
+    <string name="home_locations_subtitle">Launch and landing sites around the world</string>
     <string name="coming_soon">Coming Soon</string>
 
     <!-- Launches Screen -->
@@ -27,6 +31,10 @@
     <string name="astronauts_title">Astronauts</string>
     <!-- Space Stations Screen -->
     <string name="stations_title">Space Stations</string>
+    <!-- Spacecrafts Screen -->
+    <string name="spacecrafts_title">Spacecrafts</string>
+    <!-- Locations Screen -->
+    <string name="locations_title">Locations</string>
 
     <string name="back">Back</string>
     <string name="error_title">Oops! Something went wrong</string>
@@ -43,6 +51,14 @@
     <string name="deorbited_label">Deorbited</string>
     <string name="orbit_label">Orbit</string>
     <string name="type_label">Type</string>
+    <string name="in_use_label">In Use</string>
+    <string name="agency_label">Agency</string>
+    <string name="country_label">Country</string>
+    <string name="timezone_label">Timezone</string>
+    <string name="latitude_label">Latitude</string>
+    <string name="longitude_label">Longitude</string>
+    <string name="total_launches_label">Total Launches</string>
+    <string name="total_landings_label">Total Landings</string>
     <string name="owners_label">Owners</string>
     <string name="agency_attempts_label">Agency Attempts</string>
     <string name="location_attempts_label">Location Attempts</string>

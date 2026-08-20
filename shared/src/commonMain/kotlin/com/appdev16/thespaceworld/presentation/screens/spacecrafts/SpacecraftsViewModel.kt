@@ -1,62 +1,62 @@
-package com.appdev16.thespaceworld.presentation.screens.spacestations
+package com.appdev16.thespaceworld.presentation.screens.spacecrafts
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.appdev16.thespaceworld.domain.modal.spacestations.SpaceStation
-import com.appdev16.thespaceworld.domain.usecase.GetSpaceStationsUseCase
+import com.appdev16.thespaceworld.domain.modal.spacecrafts.SpacecraftConfig
+import com.appdev16.thespaceworld.domain.usecase.GetSpacecraftsUseCase
 import com.appdev16.thespaceworld.util.NetworkError
 import com.appdev16.thespaceworld.util.Result
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
-sealed interface SpaceStationsAction {
-    data object Refresh : SpaceStationsAction
-    data object LoadNextPage : SpaceStationsAction
-    data object Retry : SpaceStationsAction
+sealed interface SpacecraftsAction {
+    data object Refresh : SpacecraftsAction
+    data object LoadNextPage : SpacecraftsAction
+    data object Retry : SpacecraftsAction
 }
 
-data class SpaceStationsUiState(
+data class SpacecraftsUiState(
     val isLoading: Boolean = false,
     val isPaginationLoading: Boolean = false,
-    val stations: List<SpaceStation> = emptyList(),
+    val spacecrafts: List<SpacecraftConfig> = emptyList(),
     val error: NetworkError? = null,
     val endReached: Boolean = false,
     val currentOffset: Int = 0
 )
 
-class SpaceStationsViewModel(
-    private val getSpaceStationsUseCase: GetSpaceStationsUseCase
+class SpacecraftsViewModel(
+    private val getSpacecraftsUseCase: GetSpacecraftsUseCase
 ) : ViewModel() {
 
-    private val _state = MutableStateFlow(SpaceStationsUiState())
+    private val _state = MutableStateFlow(SpacecraftsUiState())
     val state = _state.asStateFlow()
 
     private val pageSize = 20
 
     init {
-        observeSpaceStations()
+        observeSpacecrafts()
     }
 
-    private fun observeSpaceStations() {
-        getSpaceStationsUseCase.getSpaceStations()
-            .onEach { stations ->
+    private fun observeSpacecrafts() {
+        getSpacecraftsUseCase.getSpacecrafts()
+            .onEach { spacecrafts ->
                 _state.update { it.copy(
-                    stations = stations,
-                    currentOffset = stations.size
+                    spacecrafts = spacecrafts,
+                    currentOffset = spacecrafts.size
                 ) }
                 
-                if (stations.isEmpty() && !_state.value.isLoading) {
+                if (spacecrafts.isEmpty() && !_state.value.isLoading) {
                     sync(isNextPage = false)
                 }
             }
             .launchIn(viewModelScope)
     }
 
-    fun onAction(action: SpaceStationsAction) {
+    fun onAction(action: SpacecraftsAction) {
         when (action) {
-            SpaceStationsAction.Refresh -> sync(isNextPage = false)
-            SpaceStationsAction.LoadNextPage -> sync(isNextPage = true)
-            SpaceStationsAction.Retry -> sync(isNextPage = _state.value.currentOffset > 0)
+            SpacecraftsAction.Refresh -> sync(isNextPage = false)
+            SpacecraftsAction.LoadNextPage -> sync(isNextPage = true)
+            SpacecraftsAction.Retry -> sync(isNextPage = _state.value.currentOffset > 0)
         }
     }
 
@@ -71,7 +71,7 @@ class SpaceStationsViewModel(
             }
 
             val offset = if (isNextPage) _state.value.currentOffset else 0
-            val result = getSpaceStationsUseCase.sync(limit = pageSize, offset = offset)
+            val result = getSpacecraftsUseCase.sync(limit = pageSize, offset = offset)
 
             when (result) {
                 is Result.Error -> {
@@ -86,7 +86,6 @@ class SpaceStationsViewModel(
                         it.copy(
                             isLoading = false,
                             isPaginationLoading = false
-                            // endReached logic could be added if repository provides total count or if we check result size
                         )
                     }
                 }
