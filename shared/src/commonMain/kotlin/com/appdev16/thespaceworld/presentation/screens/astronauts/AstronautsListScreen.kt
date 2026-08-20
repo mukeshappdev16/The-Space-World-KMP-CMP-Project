@@ -61,7 +61,7 @@ import thespaceworld.shared.generated.resources.error_title
 fun AstronautsListScreen(
     viewModel: AstronautsViewModel,
     onNavigateBack: () -> Unit,
-    onNavigateToDetail: (Int) -> Unit
+    onNavigateToDetail: (Int) -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
     
@@ -69,7 +69,7 @@ fun AstronautsListScreen(
         state = state,
         onNavigateBack = onNavigateBack,
         onLoadNextPage = { viewModel.onAction(AstronautsAction.LoadNextPage) },
-        onNavigateToDetail = onNavigateToDetail
+        onNavigateToDetail = onNavigateToDetail,
     )
 }
 
@@ -79,7 +79,7 @@ fun AstronautsListContent(
     state: AstronautsUiState,
     onNavigateBack: () -> Unit,
     onLoadNextPage: () -> Unit,
-    onNavigateToDetail: (Int) -> Unit
+    onNavigateToDetail: (Int) -> Unit,
 ) {
     val scrollState = rememberLazyListState()
 
@@ -161,12 +161,12 @@ fun AstronautsListContent(
                         state = scrollState,
                         modifier = Modifier.fillMaxSize(),
                         contentPadding = PaddingValues(16.dp),
-                        verticalArrangement = Arrangement.spacedBy(16.dp)
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
                     ) {
                         itemsIndexed(state.astronauts) { _, astronaut ->
                             AstronautItem(
                                 astronaut = astronaut,
-                                onClick = { onNavigateToDetail(astronaut.id) }
+                                onClick = { onNavigateToDetail(astronaut.id) },
                             )
                         }
 

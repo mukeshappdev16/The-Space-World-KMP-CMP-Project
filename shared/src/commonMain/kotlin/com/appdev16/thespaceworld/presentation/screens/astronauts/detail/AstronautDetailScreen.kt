@@ -21,7 +21,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.appdev16.thespaceworld.domain.modal.astronauts.Astronaut
 import com.appdev16.thespaceworld.presentation.theme.SpaceGradient
 import org.jetbrains.compose.resources.stringResource
 import thespaceworld.shared.generated.resources.*
@@ -29,7 +28,7 @@ import thespaceworld.shared.generated.resources.*
 @Composable
 fun AstronautDetailScreen(
     viewModel: AstronautDetailViewModel,
-    onNavigateBack: () -> Unit
+    onNavigateBack: () -> Unit,
 ) {
     val state by viewModel.state.collectAsState()
 
