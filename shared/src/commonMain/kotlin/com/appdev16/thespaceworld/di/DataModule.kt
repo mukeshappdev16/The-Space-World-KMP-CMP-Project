@@ -5,14 +5,18 @@ import com.appdev16.thespaceworld.data.database.DatabaseBuilder
 import com.appdev16.thespaceworld.data.database.getRoomDatabase
 import com.appdev16.thespaceworld.data.remote.AgenciesRemoteDataSource
 import com.appdev16.thespaceworld.data.remote.AgenciesRemoteDataSourceImpl
+import com.appdev16.thespaceworld.data.remote.AstronautsRemoteDataSource
+import com.appdev16.thespaceworld.data.remote.AstronautsRemoteDataSourceImpl
 import com.appdev16.thespaceworld.data.remote.EventsRemoteDataSource
 import com.appdev16.thespaceworld.data.remote.EventsRemoteDataSourceImpl
 import com.appdev16.thespaceworld.data.remote.LaunchesRemoteDataSource
 import com.appdev16.thespaceworld.data.remote.LaunchesRemoteDataSourceImpl
 import com.appdev16.thespaceworld.data.repositories.AgenciesRepositoryImpl
+import com.appdev16.thespaceworld.data.repositories.AstronautsRepositoryImpl
 import com.appdev16.thespaceworld.data.repositories.EventsRepositoryImpl
 import com.appdev16.thespaceworld.data.repositories.LaunchesRepositoryImpl
 import com.appdev16.thespaceworld.domain.repositories.AgenciesRepository
+import com.appdev16.thespaceworld.domain.repositories.AstronautsRepository
 import com.appdev16.thespaceworld.domain.repositories.EventsRepository
 import com.appdev16.thespaceworld.domain.repositories.LaunchesRepository
 import org.koin.dsl.module
@@ -26,6 +30,7 @@ val dataModule = module {
     single { get<AppDatabase>().launchDao() }
     single { get<AppDatabase>().eventDao() }
     single { get<AppDatabase>().agencyDao() }
+    single { get<AppDatabase>().astronautDao() }
 
     single<LaunchesRemoteDataSource> { LaunchesRemoteDataSourceImpl(get()) }
     single<LaunchesRepository> { LaunchesRepositoryImpl(get(), get()) }
@@ -35,4 +40,7 @@ val dataModule = module {
 
     single<AgenciesRemoteDataSource> { AgenciesRemoteDataSourceImpl(get()) }
     single<AgenciesRepository> { AgenciesRepositoryImpl(get(), get()) }
+
+    single<AstronautsRemoteDataSource> { AstronautsRemoteDataSourceImpl(get()) }
+    single<AstronautsRepository> { AstronautsRepositoryImpl(get(), get()) }
 }

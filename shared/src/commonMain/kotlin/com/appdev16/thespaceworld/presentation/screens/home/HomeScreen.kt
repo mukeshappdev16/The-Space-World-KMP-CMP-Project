@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material.icons.filled.Event
+import androidx.compose.material.icons.filled.Group
 import androidx.compose.material.icons.filled.Newspaper
 import androidx.compose.material.icons.filled.RocketLaunch
 import androidx.compose.material3.*
@@ -44,6 +45,7 @@ fun HomeScreen(
     onNavigateToLaunches: () -> Unit,
     onNavigateToEvents: () -> Unit,
     onNavigateToAgencies: () -> Unit,
+    onNavigateToAstronauts: () -> Unit,
     onNavigateToNews: () -> Unit
 ) {
     val menuItems = remember {
@@ -65,6 +67,12 @@ fun HomeScreen(
                 subtitle = Res.string.home_agencies_subtitle,
                 icon = Icons.Default.Business,
                 onClick = onNavigateToAgencies
+            ),
+            HomeMenuItem(
+                title = Res.string.home_astronauts_title,
+                subtitle = Res.string.home_astronauts_subtitle,
+                icon = Icons.Default.Group,
+                onClick = onNavigateToAstronauts
             ),
             HomeMenuItem(
                 title = Res.string.home_news_title,

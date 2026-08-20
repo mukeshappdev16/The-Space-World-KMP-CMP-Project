@@ -6,18 +6,21 @@ import androidx.room.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.appdev16.thespaceworld.data.database.converters.RoomConverters
 import com.appdev16.thespaceworld.data.database.dao.AgencyDao
+import com.appdev16.thespaceworld.data.database.dao.AstronautDao
 import com.appdev16.thespaceworld.data.database.dao.EventDao
 import com.appdev16.thespaceworld.data.database.dao.LaunchDao
 import com.appdev16.thespaceworld.data.database.entities.AgencyEntity
+import com.appdev16.thespaceworld.data.database.entities.AstronautEntity
 import com.appdev16.thespaceworld.data.database.entities.EventEntity
 import com.appdev16.thespaceworld.data.database.entities.LaunchEntity
 
-@Database(entities = [LaunchEntity::class, EventEntity::class, AgencyEntity::class], version = 1)
+@Database(entities = [LaunchEntity::class, EventEntity::class, AgencyEntity::class, AstronautEntity::class], version = 2)
 @TypeConverters(RoomConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun launchDao(): LaunchDao
     abstract fun eventDao(): EventDao
     abstract fun agencyDao(): AgencyDao
+    abstract fun astronautDao(): AstronautDao
 }
 
 fun getRoomDatabase(

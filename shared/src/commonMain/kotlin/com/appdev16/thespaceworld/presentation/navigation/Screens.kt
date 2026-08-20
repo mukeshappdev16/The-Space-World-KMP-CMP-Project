@@ -26,4 +26,10 @@ sealed interface Screen {
     
     @Serializable
     data class AgencyDetail(val id: Int) : Screen
+
+    @Serializable
+    data object Astronauts : Screen
+
+    @Serializable
+    data class AstronautDetail(val id: Int) : Screen
 }

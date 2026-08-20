@@ -1,15 +1,20 @@
 package com.appdev16.thespaceworld.presentation
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.appdev16.thespaceworld.presentation.navigation.Screen
 import com.appdev16.thespaceworld.presentation.screens.agencies.AgenciesListScreen
 import com.appdev16.thespaceworld.presentation.screens.agencies.AgenciesViewModel
 import com.appdev16.thespaceworld.presentation.screens.agencies.detail.AgencyDetailScreen
 import com.appdev16.thespaceworld.presentation.screens.agencies.detail.AgencyDetailViewModel
+import com.appdev16.thespaceworld.presentation.screens.astronauts.AstronautsListScreen
+import com.appdev16.thespaceworld.presentation.screens.astronauts.AstronautsViewModel
+import com.appdev16.thespaceworld.presentation.screens.astronauts.detail.AstronautDetailScreen
+import com.appdev16.thespaceworld.presentation.screens.astronauts.detail.AstronautDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.EventsListScreen
 import com.appdev16.thespaceworld.presentation.screens.events.EventsViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.detail.EventDetailScreen
@@ -20,13 +25,9 @@ import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesViewMode
 import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailScreen
 import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.splash.SplashScreen
-import androidx.compose.ui.tooling.preview.Preview
+import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
-
-import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
-
-import androidx.navigation.toRoute
 
 @Composable
 @Preview
@@ -58,6 +59,9 @@ fun App() {
                     },
                     onNavigateToAgencies = {
                         navController.navigate(Screen.Agencies)
+                    },
+                    onNavigateToAstronauts = {
+                        navController.navigate(Screen.Astronauts)
                     },
                     onNavigateToNews = { /* Coming Soon */ }
                 )
@@ -134,6 +138,32 @@ fun App() {
                     parameters = { parametersOf(route.id) }
                 )
                 AgencyDetailScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    }
+                )
+            }
+
+            composable<Screen.Astronauts> {
+                val viewModel = koinViewModel<AstronautsViewModel>()
+                AstronautsListScreen(
+                    viewModel = viewModel,
+                    onNavigateBack = {
+                        navController.popBackStack()
+                    },
+                    onNavigateToDetail = { id ->
+                        navController.navigate(Screen.AstronautDetail(id))
+                    }
+                )
+            }
+
+            composable<Screen.AstronautDetail> { backStackEntry ->
+                val route = backStackEntry.toRoute<Screen.AstronautDetail>()
+                val viewModel = koinViewModel<AstronautDetailViewModel>(
+                    parameters = { parametersOf(route.id) }
+                )
+                AstronautDetailScreen(
                     viewModel = viewModel,
                     onNavigateBack = {
                         navController.popBackStack()

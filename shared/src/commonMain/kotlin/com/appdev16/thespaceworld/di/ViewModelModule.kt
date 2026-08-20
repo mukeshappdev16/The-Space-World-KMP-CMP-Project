@@ -2,6 +2,8 @@ package com.appdev16.thespaceworld.di
 
 import com.appdev16.thespaceworld.presentation.screens.agencies.AgenciesViewModel
 import com.appdev16.thespaceworld.presentation.screens.agencies.detail.AgencyDetailViewModel
+import com.appdev16.thespaceworld.presentation.screens.astronauts.AstronautsViewModel
+import com.appdev16.thespaceworld.presentation.screens.astronauts.detail.AstronautDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.EventsViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.detail.EventDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesViewModel
@@ -16,4 +18,6 @@ val viewModelModule = module {
     viewModel { (eventId: Int) -> EventDetailViewModel(get(), eventId) }
     viewModel { AgenciesViewModel(get()) }
     viewModel { (agencyId: Int) -> AgencyDetailViewModel(get(), agencyId) }
+    viewModel { AstronautsViewModel(get()) }
+    viewModel { (astronautId: Int) -> AstronautDetailViewModel(get(), astronautId) }
 }

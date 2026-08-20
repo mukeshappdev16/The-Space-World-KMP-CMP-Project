@@ -11,6 +11,8 @@
     <string name="home_events_subtitle">Space conferences and celestial events</string>
     <string name="home_agencies_title">Agencies</string>
     <string name="home_agencies_subtitle">World space agencies and their missions</string>
+    <string name="home_astronauts_title">Astronauts</string>
+    <string name="home_astronauts_subtitle">Discover the people who explore space</string>
     <string name="home_news_title">News</string>
     <string name="home_news_subtitle">Latest updates from space agencies</string>
     <string name="coming_soon">Coming Soon</string>
@@ -19,6 +21,8 @@
     <string name="launches_title">Space Launches</string>
     <!-- Events Screen -->
     <string name="events_title">Space Events</string>
+    <!-- Astronauts Screen -->
+    <string name="astronauts_title">Astronauts</string>
 
     <string name="back">Back</string>
     <string name="error_title">Oops! Something went wrong</string>
