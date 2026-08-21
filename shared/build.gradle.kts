@@ -92,6 +92,9 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.ktor.client.darwin)
         }
+        jvmMain.dependencies {
+            implementation(libs.ktor.client.okhttp)
+        }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
         }
@@ -102,6 +105,7 @@ dependencies {
     androidRuntimeClasspath(libs.compose.uiTooling)
     
     add("kspAndroid", libs.androidx.room.compiler)
+    add("kspJvm", libs.androidx.room.compiler)
     add("kspIosArm64", libs.androidx.room.compiler)
     add("kspIosSimulatorArm64", libs.androidx.room.compiler)
 }

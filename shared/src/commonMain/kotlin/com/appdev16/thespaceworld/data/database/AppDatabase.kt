@@ -1,7 +1,9 @@
 package com.appdev16.thespaceworld.data.database
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
+import androidx.room.RoomDatabaseConstructor
 import androidx.room.TypeConverters
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import com.appdev16.thespaceworld.data.database.converters.RoomConverters
@@ -22,6 +24,7 @@ import com.appdev16.thespaceworld.data.database.entities.SpacecraftEntity
 
 @Database(entities = [LaunchEntity::class, EventEntity::class, AgencyEntity::class, AstronautEntity::class, SpaceStationEntity::class, SpacecraftEntity::class, LocationEntity::class], version = 4)
 @TypeConverters(RoomConverters::class)
+@ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun launchDao(): LaunchDao
     abstract fun eventDao(): EventDao
@@ -31,6 +34,10 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun spacecraftDao(): SpacecraftDao
     abstract fun locationDao(): LocationDao
 }
+
+// The Room compiler will generate this implementation.
+@Suppress("NO_ACTUAL_FOR_EXPECT")
+expect object AppDatabaseConstructor : RoomDatabaseConstructor<AppDatabase>
 
 fun getRoomDatabase(
     builder: RoomDatabase.Builder<AppDatabase>

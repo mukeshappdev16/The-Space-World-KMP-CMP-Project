@@ -15,7 +15,7 @@ import org.koin.dsl.module
 
 val networkModule = module {
     single {
-        HttpClient {
+        HttpClient(get()) {
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
