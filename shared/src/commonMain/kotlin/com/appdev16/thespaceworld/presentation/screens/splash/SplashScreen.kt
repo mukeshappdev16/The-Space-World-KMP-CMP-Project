@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.appdev16.thespaceworld.presentation.theme.SpaceGradient
@@ -44,7 +45,7 @@ fun SplashScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Brush.verticalGradient(SpaceGradient)),
+            .background(Brush.verticalGradient(SpaceGradient)).padding(12.dp),
         contentAlignment = Alignment.Center
     ) {
         // Subtle Star Field Effect
@@ -63,7 +64,8 @@ fun SplashScreen(
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary,
-                    letterSpacing = 8.sp
+                    letterSpacing = 8.sp,
+                    textAlign = TextAlign.Center
                 )
                 
                 Spacer(modifier = Modifier.height(12.dp))
