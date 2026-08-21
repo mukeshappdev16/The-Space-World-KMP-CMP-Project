@@ -6,6 +6,7 @@ import com.appdev16.thespaceworld.presentation.screens.astronauts.AstronautsView
 import com.appdev16.thespaceworld.presentation.screens.astronauts.detail.AstronautDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.EventsViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.detail.EventDetailViewModel
+import com.appdev16.thespaceworld.presentation.screens.home.HomeViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.spacestations.SpaceStationsViewModel
@@ -18,6 +19,7 @@ import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 
 val viewModelModule = module {
+    viewModel { HomeViewModel(get()) }
     viewModel { LaunchesViewModel(get()) }
     viewModel { (launchId: String) -> LaunchDetailViewModel(get(), launchId) }
     viewModel { EventsViewModel(get()) }

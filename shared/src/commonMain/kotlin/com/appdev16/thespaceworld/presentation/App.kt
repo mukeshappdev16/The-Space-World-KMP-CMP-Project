@@ -22,6 +22,7 @@ import com.appdev16.thespaceworld.presentation.screens.events.EventsViewModel
 import com.appdev16.thespaceworld.presentation.screens.events.detail.EventDetailScreen
 import com.appdev16.thespaceworld.presentation.screens.events.detail.EventDetailViewModel
 import com.appdev16.thespaceworld.presentation.screens.home.HomeScreen
+import com.appdev16.thespaceworld.presentation.screens.home.HomeViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesListScreen
 import com.appdev16.thespaceworld.presentation.screens.launches.LaunchesViewModel
 import com.appdev16.thespaceworld.presentation.screens.launches.detail.LaunchDetailScreen
@@ -68,9 +69,14 @@ fun App() {
             }
 
             composable<Screen.Home> {
+                val viewModel = koinViewModel<HomeViewModel>()
                 HomeScreen(
+                    viewModel = viewModel,
                     onNavigateToLaunches = {
                         navController.navigate(Screen.Launches)
+                    },
+                    onNavigateToLaunchDetail = { id ->
+                        navController.navigate(Screen.LaunchDetail(id))
                     },
                     onNavigateToEvents = {
                         navController.navigate(Screen.Events)
@@ -89,8 +95,7 @@ fun App() {
                     },
                     onNavigateToLocations = {
                         navController.navigate(Screen.Locations)
-                    },
-                    onNavigateToNews = { /* Coming Soon */ }
+                    }
                 )
             }
 
