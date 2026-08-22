@@ -1,58 +1,109 @@
 package com.appdev16.thespaceworld.presentation.screens.home
 
-import androidx.compose.animation.core.*
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.SignalCellularAlt
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
 import com.appdev16.thespaceworld.domain.modal.launches.Launch
-import com.appdev16.thespaceworld.presentation.theme.AccentGradient
 import com.appdev16.thespaceworld.presentation.theme.SpaceCyan
-import com.appdev16.thespaceworld.presentation.theme.SpaceGradient
 import com.appdev16.thespaceworld.presentation.theme.SpacePurple
+import com.appdev16.thespaceworld.presentation.theme.TheSpaceWorldTheme
+import com.appdev16.thespaceworld.presentation.util.MockData
 import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.StringResource
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import thespaceworld.shared.generated.resources.*
+import thespaceworld.shared.generated.resources.Res
+import thespaceworld.shared.generated.resources.home_agencies_subtitle
+import thespaceworld.shared.generated.resources.home_agencies_title
+import thespaceworld.shared.generated.resources.home_astronauts_subtitle
+import thespaceworld.shared.generated.resources.home_astronauts_title
+import thespaceworld.shared.generated.resources.home_events_subtitle
+import thespaceworld.shared.generated.resources.home_events_title
+import thespaceworld.shared.generated.resources.home_launches_subtitle
+import thespaceworld.shared.generated.resources.home_launches_title
+import thespaceworld.shared.generated.resources.home_locations_subtitle
+import thespaceworld.shared.generated.resources.home_locations_title
+import thespaceworld.shared.generated.resources.home_spacecrafts_subtitle
+import thespaceworld.shared.generated.resources.home_spacecrafts_title
+import thespaceworld.shared.generated.resources.home_stations_subtitle
+import thespaceworld.shared.generated.resources.home_stations_title
+import thespaceworld.shared.generated.resources.home_title
+import thespaceworld.shared.generated.resources.ic_agencies
+import thespaceworld.shared.generated.resources.ic_astronauts
+import thespaceworld.shared.generated.resources.ic_events
+import thespaceworld.shared.generated.resources.ic_launches
+import thespaceworld.shared.generated.resources.ic_locations
+import thespaceworld.shared.generated.resources.ic_space_stations
+import thespaceworld.shared.generated.resources.ic_spacecraft
 import kotlin.random.Random
 
 data class HomeMenuItem(
     val title: StringResource,
     val subtitle: StringResource,
-    val icon: ImageVector,
+    val icon: Any,
     val onClick: () -> Unit,
     val enabled: Boolean = true
 )
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     viewModel: HomeViewModel,
@@ -67,48 +118,97 @@ fun HomeScreen(
 ) {
     val state by viewModel.state.collectAsState()
 
+    HomeContent(
+        state = state,
+        onNavigateToLaunches = onNavigateToLaunches,
+        onNavigateToLaunchDetail = onNavigateToLaunchDetail,
+        onNavigateToEvents = onNavigateToEvents,
+        onNavigateToAgencies = onNavigateToAgencies,
+        onNavigateToAstronauts = onNavigateToAstronauts,
+        onNavigateToSpaceStations = onNavigateToSpaceStations,
+        onNavigateToSpacecrafts = onNavigateToSpacecrafts,
+        onNavigateToLocations = onNavigateToLocations
+    )
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Preview
+fun HomePreview() {
+    TheSpaceWorldTheme {
+        HomeContent(
+            state = HomeUiState(
+                nextLaunch = MockData.launch,
+                isLoading = false
+            ),
+            onNavigateToLaunches = {},
+            onNavigateToLaunchDetail = { _ -> },
+            onNavigateToEvents = {},
+            onNavigateToAgencies = {},
+            onNavigateToAstronauts = {},
+            onNavigateToSpaceStations = {},
+            onNavigateToSpacecrafts = {},
+            onNavigateToLocations = {}
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun HomeContent(
+    state: HomeUiState,
+    onNavigateToLaunches: () -> Unit,
+    onNavigateToLaunchDetail: (String) -> Unit,
+    onNavigateToEvents: () -> Unit,
+    onNavigateToAgencies: () -> Unit,
+    onNavigateToAstronauts: () -> Unit,
+    onNavigateToSpaceStations: () -> Unit,
+    onNavigateToSpacecrafts: () -> Unit,
+    onNavigateToLocations: () -> Unit
+) {
     val menuItems = remember {
         listOf(
             HomeMenuItem(
                 title = Res.string.home_launches_title,
                 subtitle = Res.string.home_launches_subtitle,
-                icon = Icons.Default.RocketLaunch,
+                icon = Res.drawable.ic_launches,
                 onClick = onNavigateToLaunches
             ),
             HomeMenuItem(
                 title = Res.string.home_events_title,
                 subtitle = Res.string.home_events_subtitle,
-                icon = Icons.Default.Event,
+                icon = Res.drawable.ic_events,
                 onClick = onNavigateToEvents
             ),
             HomeMenuItem(
                 title = Res.string.home_stations_title,
                 subtitle = Res.string.home_stations_subtitle,
-                icon = Icons.Default.HomeWork,
+                icon = Res.drawable.ic_space_stations,
                 onClick = onNavigateToSpaceStations
             ),
             HomeMenuItem(
                 title = Res.string.home_spacecrafts_title,
                 subtitle = Res.string.home_spacecrafts_subtitle,
-                icon = Icons.Default.Rocket,
+                icon = Res.drawable.ic_spacecraft,
                 onClick = onNavigateToSpacecrafts
             ),
             HomeMenuItem(
                 title = Res.string.home_locations_title,
                 subtitle = Res.string.home_locations_subtitle,
-                icon = Icons.Default.Place,
+                icon = Res.drawable.ic_locations,
                 onClick = onNavigateToLocations
             ),
             HomeMenuItem(
                 title = Res.string.home_agencies_title,
                 subtitle = Res.string.home_agencies_subtitle,
-                icon = Icons.Default.Business,
+                icon = Res.drawable.ic_agencies,
                 onClick = onNavigateToAgencies
             ),
             HomeMenuItem(
                 title = Res.string.home_astronauts_title,
                 subtitle = Res.string.home_astronauts_subtitle,
-                icon = Icons.Default.Person,
+                icon = Res.drawable.ic_astronauts,
                 onClick = onNavigateToAstronauts
             )
         )
@@ -135,7 +235,7 @@ fun HomeScreen(
                             color = SpaceCyan
                         )
                     },
-                    colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = Color.Transparent
                     )
                 )
@@ -388,7 +488,7 @@ fun FuturisticHero(
 @Composable
 fun InnovativeGlassCard(
     title: String,
-    icon: ImageVector,
+    icon: Any,
     onClick: () -> Unit,
     enabled: Boolean = true
 ) {
@@ -397,7 +497,14 @@ fun InnovativeGlassCard(
             .fillMaxWidth()
             .aspectRatio(0.9f)
             .clip(RoundedCornerShape(32.dp))
-            .clickable(enabled = enabled) { onClick() },
+            .clickable(enabled = enabled) { onClick() }
+            .border(
+                width = 1.dp,
+                brush = Brush.linearGradient(
+                    listOf(SpaceCyan.copy(0.3f), SpacePurple.copy(0.3f), Color.Transparent)
+                ),
+                shape = RoundedCornerShape(32.dp)
+            ),
         colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
         Box(
@@ -428,12 +535,24 @@ fun InnovativeGlassCard(
                         ),
                     contentAlignment = Alignment.Center
                 ) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        modifier = Modifier.size(32.dp),
-                        tint = if (enabled) SpaceCyan else Color.White.copy(0.2f)
-                    )
+                    val painter = when (icon) {
+                        is DrawableResource -> painterResource(icon)
+                        is ImageVector -> rememberVectorPainter(icon)
+                        else -> null
+                    }
+
+                    if (painter != null) {
+                        Icon(
+                            painter = painter,
+                            contentDescription = null,
+                            modifier = Modifier.size(64.dp),
+                            tint = if (icon is ImageVector) {
+                                if (enabled) SpaceCyan else Color.White.copy(alpha = 0.2f)
+                            } else {
+                                Color.Unspecified
+                            }
+                        )
+                    }
                 }
 
                 Spacer(modifier = Modifier.height(20.dp))
@@ -450,3 +569,4 @@ fun InnovativeGlassCard(
         }
     }
 }
+
