@@ -16,7 +16,7 @@ A modern, high-performance **Kotlin Multiplatform (KMP)** application for explor
 
 ### 🎥 App Demo
 <div align="center">
-  <video src="screenshots/Screen_recording_20260822_115129.webm" width="80%" controls>
+  <video src="https://github.com/mukeshappdev16/The-Space-World/raw/main/screenshots/Screen_recording_20260822_115129.webm" width="80%" controls>
     Your browser does not support the video tag.
   </video>
 </div>
