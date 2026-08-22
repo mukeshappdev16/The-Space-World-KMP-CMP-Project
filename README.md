@@ -12,7 +12,14 @@ A modern, high-performance **Kotlin Multiplatform (KMP)** application for explor
 
 ---
 
-## 📸 Screenshots
+## 📸 Screenshots & Working Demo
+
+### 🎥 App Demo
+<div align="center">
+  <video src="screenshots/Screen_recording_20260822_115129.webm" width="80%" controls>
+    Your browser does not support the video tag.
+  </video>
+</div>
 
 ### Android
 <div align="center">
@@ -183,4 +190,9 @@ Persistence is handled by **Room**, which is now available for Kotlin Multiplatf
 - ✅ Enhanced UI with modern glassmorphism design.
 
 ---
+
+## 🤝 Credits & Acknowledgements
+
+- **Data Source**: This project uses [The Space Devs API](https://thespacedevs.com/) for fetching all space-related data. Special thanks to the TSD team for providing such a comprehensive and free API.
+
 Learn more about [Kotlin Multiplatform](https://www.jetbrains.com/help/kotlin-multiplatform-dev/get-started.html).
