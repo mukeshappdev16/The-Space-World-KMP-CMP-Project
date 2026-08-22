@@ -12,6 +12,47 @@ A modern, high-performance **Kotlin Multiplatform (KMP)** application for explor
 
 ---
 
+## 📸 Screenshots
+
+### Android
+<div align="center">
+  <img src="screenshots/android/Splash.png" width="30%" alt="Android Splash Screen" />
+  <img src="screenshots/android/Home.png" width="30%" alt="Android Home Screen" />
+  <img src="screenshots/android/Launches.png" width="30%" alt="Android Launches Screen" />
+</div>
+<br/>
+<div align="center">
+  <img src="screenshots/android/astronauts.png" width="30%" alt="Android Astronauts List" />
+  <img src="screenshots/android/astranauts_detail.png" width="30%" alt="Android Astronaut Detail" />
+  <img src="screenshots/android/Spance station detail.png" width="30%" alt="Android Space Station Detail" />
+</div>
+
+### iOS
+<div align="center">
+  <img src="screenshots/ios/Simulator Screenshot - iPhone 17 Pro - 2026-08-22 at 11.44.10.png" width="30%" alt="iOS Home Screen" />
+  <img src="screenshots/ios/Simulator Screenshot - iPhone 17 Pro - 2026-08-22 at 11.44.22.png" width="30%" alt="iOS Launches Screen" />
+  <img src="screenshots/ios/Simulator Screenshot - iPhone 17 Pro - 2026-08-22 at 11.44.36.png" width="30%" alt="iOS Events Screen" />
+</div>
+<br/>
+<div align="center">
+  <img src="screenshots/ios/Simulator Screenshot - iPhone 17 Pro - 2026-08-22 at 11.45.12.png" width="30%" alt="iOS Agencies Screen" />
+  <img src="screenshots/ios/Simulator Screenshot - iPhone 17 Pro - 2026-08-22 at 11.45.21.png" width="30%" alt="iOS Agency Detail" />
+  <img src="screenshots/ios/Simulator Screenshot - iPhone 17 Pro - 2026-08-22 at 11.45.52.png" width="30%" alt="iOS Astronauts Screen" />
+</div>
+
+### Desktop
+<div align="center">
+  <img src="screenshots/desktop/Screenshot 2026-08-22 at 11.48.02 AM.png" width="45%" alt="Desktop Home Screen" />
+  <img src="screenshots/desktop/Screenshot 2026-08-22 at 11.48.12 AM.png" width="45%" alt="Desktop Launches Screen" />
+</div>
+<br/>
+<div align="center">
+  <img src="screenshots/desktop/Screenshot 2026-08-22 at 11.48.46 AM.png" width="45%" alt="Desktop Events Screen" />
+  <img src="screenshots/desktop/Screenshot 2026-08-22 at 11.49.46 AM.png" width="45%" alt="Desktop Agencies Screen" />
+</div>
+
+---
+
 ## 🏗️ Architecture & Patterns
 
 The project is built using a strict **Clean Architecture** approach combined with **Unidirectional Data Flow (UDF)**.
@@ -43,12 +84,39 @@ Each screen uses a consistent state management pattern:
 | :--- | :--- |
 | **Language** | Kotlin (100%) |
 | **UI Framework** | Compose Multiplatform (Material 3) |
+| **Navigation** | Jetpack Compose Navigation (Type-Safe) |
 | **Dependency Injection** | Koin |
 | **Networking** | Ktor (OkHttp for Android/JVM, Darwin for iOS) |
 | **Local Database** | Room (KMP) |
 | **Image Loading** | Coil 3 (KMP) |
 | **Serialization** | Kotlinx Serialization (JSON) |
 | **Asynchronous** | Coroutines & Flow |
+
+---
+
+## 🧭 Type-Safe Navigation
+
+The project utilizes the new **Type-Safe Navigation** for Compose Multiplatform. Screens are defined as `@Serializable` objects or data classes.
+
+```kotlin
+sealed interface Screen {
+    @Serializable data object Home : Screen
+    @Serializable data class LaunchDetail(val id: String) : Screen
+    // ...
+}
+```
+
+This ensures compile-time safety when navigating between screens and passing arguments.
+
+---
+
+## 💉 Dependency Injection (Koin)
+
+Koin is used for dependency injection across all platforms, ensuring a clean and testable codebase.
+
+- **Modular Design**: Separated modules for `Network`, `Data`, `UseCase`, `ViewModel`, and `Platform`.
+- **Platform Specifics**: `PlatformModule` handles platform-specific implementations like `DatabaseBuilder` and `HttpClientEngine`.
+- **Initialization**: Centralized `initKoin` function called from `MainActivity` (Android), `MainViewController` (iOS), and `main.kt` (Desktop).
 
 ---
 
@@ -59,15 +127,6 @@ We use **Ktor** with a robust `safeCall` wrapper to handle network requests and 
 - **Centralized Config**: `HttpClient` is configured in `NetworkModule.kt` with Content Negotiation and Logging.
 - **Error Handling**: Custom `Result` and `NetworkError` classes to map HTTP errors (401, 404, 500, etc.) to typed domain errors.
 - **Platform Specifics**: Injected `HttpClientEngine` via Koin (`OkHttp` for Android/JVM, `Darwin` for iOS).
-
-```kotlin
-// Example of safe API call
-suspend fun getLaunches(): Result<List<Launch>, NetworkError> {
-    return safeCall {
-        client.get("launches/")
-    }
-}
-```
 
 ---
 

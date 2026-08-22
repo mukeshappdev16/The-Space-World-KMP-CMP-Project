@@ -30,7 +30,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.SignalCellularAlt
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -59,9 +58,9 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.tooling.preview.Preview
 import com.appdev16.thespaceworld.domain.modal.launches.Launch
 import com.appdev16.thespaceworld.presentation.theme.SpaceCyan
 import com.appdev16.thespaceworld.presentation.theme.SpacePurple
